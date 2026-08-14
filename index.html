@@ -3,15 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-  <title>RADIO ROCK // Continuous Rock & Metal Broadcast</title>
-  <meta name="description" content="A continuous, minimalist shared rock & metal internet radio station.">
+  <title>RADIO ROCK // Continuous Rock Broadcast</title>
+  <meta name="description" content="A premium minimalist music player designed around rock, alternative, and classic rock.">
   
-  <link rel="preload" as="image" href="assets/background.jpg">
-
-  <!-- Typography: Space Grotesk & Inter -->
+  <!-- Typography: Inter for clean geometric Swiss/editorial look -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Supabase JS Client v2 CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -19,268 +17,410 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Ambient background lighting -->
-  <div class="bg-ambient-layer" style="background-image: url('assets/background.jpg');"></div>
-  <div class="bg-dark-overlay"></div>
 
-  <!-- Mobile Player Frame Wrapper -->
-  <main class="player-app-frame" id="app-root">
+  <!-- Full Application Shell -->
+  <div class="app-container">
     
-    <!-- 1. Top Bar: [ < ] [ NOW PLAYING / FREQUENCY ] [ ☷ ] -->
-    <header class="now-playing-header">
-      <button class="nav-icon-btn" id="drawer-toggle-btn-left" aria-label="Frequency Menu" title="Choose Frequency">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-      </button>
+    <!-- 1. Left Sidebar (Desktop/Tablet) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-eyebrow">RADIO</span>
+        <span class="brand-title">ROCK</span>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="home" id="nav-home">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Home</span>
+        </button>
+        
+        <button class="nav-item" data-tab="search" id="nav-search">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Search</span>
+        </button>
+        
+        <button class="nav-item" data-tab="library" id="nav-library">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Library</span>
+        </button>
 
-      <div class="header-title-block" id="header-decade-trigger">
-        <span class="header-eyebrow">NOW PLAYING</span>
-        <span class="header-decade-title" id="active-decade-label">ALL ROCK ▾</span>
+        <div class="sidebar-divider"></div>
+        
+        <div class="sidebar-section-title">CHANNELS & MORE</div>
+        
+        <button class="nav-item" data-sub="playlists" id="nav-sub-playlists">
+          <span>Playlists</span>
+        </button>
+        <button class="nav-item" data-sub="decades" id="nav-sub-decades">
+          <span>Decades</span>
+        </button>
+        <button class="nav-item" data-sub="artists" id="nav-sub-artists">
+          <span>Artists</span>
+        </button>
+        <button class="nav-item" data-sub="liked" id="nav-sub-liked">
+          <span>Liked Songs</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- 2. Main Content Panel -->
+    <main class="main-content" id="main-content">
+      <!-- Main Content Header -->
+      <header class="main-header">
+        <div class="header-nav-group">
+          <button class="header-nav-btn" id="nav-back-btn" title="Back" aria-label="Go Back">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          
+          <!-- Search Bar Container (only shows when Search tab is active) -->
+          <div class="search-bar-container hidden" id="search-bar-container">
+            <svg class="search-bar-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-input" placeholder="Search artists, albums, songs..." autocomplete="off" aria-label="Search">
+            <button class="search-clear-btn hidden" id="search-clear-btn" aria-label="Clear Search">✕</button>
+          </div>
+        </div>
+
+        <div class="header-right-group">
+          <!-- Real-time multi-user status -->
+          <div class="live-status-pill">
+            <span class="live-status-dot"></span>
+            <span class="live-status-count" id="listener-count-text">1 Live</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Scrollable content stage (dynamic routers render here) -->
+      <div class="content-stage" id="content-stage">
+        <!-- Rendered by app.js (Home / Search / Library / AlbumPage etc.) -->
+      </div>
+    </main>
+
+    <!-- 3. Desktop Play Queue Panel (Right Sidebar) -->
+    <aside class="queue-panel" id="queue-panel">
+      <div class="queue-header">
+        <div>
+          <h2>QUEUE</h2>
+          <span class="queue-subtitle" id="queue-count-label">0 SONGS</span>
+        </div>
+        <button class="queue-clear-btn" id="clear-queue-btn" title="Clear Queue">CLEAR</button>
+      </div>
+      
+      <div class="queue-list" id="queue-list">
+        <!-- Track items rendered here -->
+      </div>
+    </aside>
+
+    <!-- 4. Persistent Desktop Player Bar (Bottom) -->
+    <footer class="desktop-player" id="desktop-player">
+      
+      <!-- Track details -->
+      <div class="player-left">
+        <div class="player-art-frame" id="player-art-trigger">
+          <div class="player-art-placeholder" id="player-art-placeholder">⚡</div>
+          <img src="" alt="" class="player-art-img hidden" id="player-artwork-img">
+        </div>
+        <div class="player-track-meta">
+          <div class="player-track-title" id="player-track-title">Not Playing</div>
+          <div class="player-track-artist" id="player-track-artist">Select a song to start</div>
+        </div>
+        <button class="player-heart-btn" id="player-like-btn" aria-label="Like Track">
+          <svg class="heart-icon outline" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <svg class="heart-icon filled hidden" viewBox="0 0 24 24" width="18" height="18" fill="#F5F5F5" stroke="#F5F5F5" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
       </div>
 
-      <button class="nav-icon-btn" id="drawer-toggle-btn" aria-label="Open Decade Drawer" title="Open Decades Library">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4" y1="6" x2="20" y2="6"></line>
-          <line x1="4" y1="12" x2="20" y2="12"></line>
-          <line x1="4" y1="18" x2="20" y2="18"></line>
-        </svg>
-      </button>
-    </header>
+      <!-- Controls & Progress scrubber -->
+      <div class="player-center">
+        <div class="player-controls">
+          <button class="player-icon-btn" id="player-shuffle-btn" title="Shuffle Station">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 3 21 3 21 8"></polyline>
+              <line x1="4" y1="20" x2="21" y2="3"></line>
+              <polyline points="21 16 21 21 16 21"></polyline>
+              <line x1="15" y1="15" x2="21" y2="21"></line>
+              <line x1="4" y1="4" x2="9" y2="9"></line>
+            </svg>
+          </button>
+          
+          <button class="player-icon-btn" id="player-prev-btn" title="Previous Track (P)">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <polygon points="19 20 9 12 19 4 19 20"></polygon>
+              <line x1="5" y1="4" x2="5" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
+            </svg>
+          </button>
+          
+          <button class="player-play-btn" id="player-play-pause-btn" title="Play / Pause (Space)">
+            <svg class="play-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <polygon points="6 4 20 12 6 20 6 4"></polygon>
+            </svg>
+            <svg class="pause-icon hidden" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+              <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+            </svg>
+          </button>
+          
+          <button class="player-icon-btn" id="player-next-btn" title="Next Track (N)">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <polygon points="5 4 15 12 5 20 5 4"></polygon>
+              <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
+            </svg>
+          </button>
+          
+          <button class="player-icon-btn" id="player-repeat-btn" title="Repeat Track">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="17 1 21 5 17 9"></polyline>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+              <polyline points="7 23 3 19 7 15"></polyline>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+            </svg>
+          </button>
+        </div>
 
-    <!-- 2. Main Player Viewport (No Suffocation, Generous Margins) -->
-    <section class="player-main-stage">
-      
-      <!-- Center Artwork / Album Display Card -->
-      <div class="album-art-card" id="album-art-card">
-        <div class="art-inner-frame">
-          <div class="art-graphic-rock">
-            <span class="art-logo-text">ROCK</span>
-            <div class="art-soundwave-graphic">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <div class="player-timeline-wrapper">
+          <span class="time-label" id="player-time-current">0:00</span>
+          
+          <div class="timeline-slider-container" id="player-progress-container" role="slider" aria-label="Playback Slider" tabindex="0">
+            <div class="timeline-track">
+              <div class="timeline-buffer" id="player-progress-buffer"></div>
+              <div class="timeline-fill" id="player-progress-fill"></div>
+              <div class="timeline-thumb" id="player-progress-thumb"></div>
             </div>
           </div>
-          <!-- Live Visualizer Overlay -->
-          <div class="equalizer-container" id="equalizer" aria-hidden="true">
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-            <div class="eq-bar"></div>
-          </div>
+          
+          <span class="time-label" id="player-time-duration">-0:00</span>
         </div>
       </div>
 
-      <!-- 3. Track Info Row with Interactive Heart Button -->
-      <div class="track-header-row">
-        <div class="track-meta">
-          <h1 class="track-name" id="track-title">Tuning in...</h1>
-          <p class="artist-name" id="track-artist">Connecting to Rock Frequency</p>
-        </div>
-
-        <button class="heart-btn" id="like-btn" aria-label="Favorite Track" title="Like Track">
-          <svg class="heart-icon outline" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-          </svg>
-          <svg class="heart-icon filled hidden" viewBox="0 0 24 24" width="24" height="24" fill="#22c55e">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      <!-- Volume controls -->
+      <div class="player-right">
+        <button class="player-icon-btn" id="player-mute-btn" title="Mute/Unmute">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path class="vol-wave" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path class="vol-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
           </svg>
         </button>
-      </div>
-
-      <!-- 4. Interactive Progress Scrubber with Elapsed & Remaining Time -->
-      <div class="timeline-group">
-        <div class="progress-bar-container" id="progress-bar-container" role="slider" aria-label="Playback Scrubber" tabindex="0">
-          <div class="progress-bar-track">
-            <div class="progress-bar-buffer" id="progress-bar-buffer"></div>
-            <div class="progress-bar-fill" id="progress-bar-fill"></div>
-            <div class="progress-thumb" id="progress-thumb"></div>
-          </div>
+        
+        <div class="vol-slider-wrapper">
+          <input type="range" min="0" max="100" value="100" class="vol-slider" id="player-volume-slider" aria-label="Volume">
         </div>
         
-        <div class="timeline-labels">
-          <span class="time-label" id="current-time">0:00</span>
-          <span class="time-label" id="duration-time">-0:00</span>
-        </div>
-      </div>
-
-      <!-- 5. Main Controls Row: [ 🔀 ] [ ◀ ] [ ●▶ ] [ ▶ ] [ 🔁 ] -->
-      <div class="controls-row">
-        <!-- Shuffle / Randomizer -->
-        <button class="ctrl-btn secondary-btn" id="shuffle-btn" aria-label="Shuffle Decades" title="Shuffle Station">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="16 3 21 3 21 8"></polyline>
-            <line x1="4" y1="20" x2="21" y2="3"></line>
-            <polyline points="21 16 21 21 16 21"></polyline>
-            <line x1="15" y1="15" x2="21" y2="21"></line>
-            <line x1="4" y1="4" x2="9" y2="9"></line>
-          </svg>
-        </button>
-
-        <!-- Previous Track Button -->
-        <button class="ctrl-btn nav-btn" id="prev-btn" aria-label="Previous Track" title="Previous Track (P)">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
-            <polygon points="19 20 9 12 19 4 19 20"></polygon>
-            <line x1="5" y1="4" x2="5" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
-          </svg>
-        </button>
-
-        <!-- Hero Play/Pause Button -->
-        <button class="hero-play-btn" id="play-pause-btn" aria-label="Play or Pause" title="Play / Pause (Space)">
-          <svg class="btn-icon play-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
-            <polygon points="6 4 20 12 6 20 6 4"></polygon>
-          </svg>
-          <svg class="btn-icon pause-icon hidden" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
-            <rect x="6" y="4" width="4" height="16" rx="1.5"></rect>
-            <rect x="14" y="4" width="4" height="16" rx="1.5"></rect>
-          </svg>
-        </button>
-
-        <!-- Next Track Button -->
-        <button class="ctrl-btn nav-btn" id="next-btn" aria-label="Next Track" title="Next Track (N)">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
-            <polygon points="5 4 15 12 5 20 5 4"></polygon>
-            <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
-          </svg>
-        </button>
-
-        <!-- Loop / Continuous Radio Toggle -->
-        <button class="ctrl-btn secondary-btn active" id="repeat-btn" aria-label="Continuous Radio" title="Continuous Radio">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="17 1 21 5 17 9"></polyline>
-            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-            <polyline points="7 23 3 19 7 15"></polyline>
-            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+        <button class="player-icon-btn" id="toggle-queue-btn" title="Toggle Queue Panel">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
           </svg>
         </button>
       </div>
+    </footer>
 
-      <!-- 6. Horizontal Volume Bar: [ 🔈 ] ━━━━━●━━━━ [ 🔊 ] -->
-      <div class="volume-slider-row">
-        <button class="volume-mute-btn" id="mute-btn" aria-label="Mute / Unmute" title="Mute / Unmute">
-          <svg class="vol-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-          </svg>
-        </button>
-
-        <div class="vol-track-wrapper">
-          <input type="range" min="0" max="100" value="100" class="horizontal-volume-slider" id="volume-slider" aria-label="Volume">
-        </div>
-
-        <button class="volume-max-btn" id="vol-max-btn" aria-label="Full Volume" title="Full Volume">
-          <svg class="vol-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-          </svg>
-        </button>
-      </div>
-
-    </section>
-
-    <!-- 7. Bottom Navigation Tab Bar: [ Home | Library | Search | Live ] -->
-    <footer class="bottom-tab-bar">
-      <button class="tab-item active" id="tab-home" aria-label="Home Player">
+    <!-- 5. Mobile Bottom Tab Navigation -->
+    <nav class="mobile-nav" id="mobile-nav">
+      <button class="mobile-nav-item active" data-tab="home" id="mob-tab-home">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
           <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
         </svg>
-        <span>Player</span>
+        <span>Home</span>
       </button>
-
-      <button class="tab-item" id="tab-library" aria-label="Decades Library">
+      
+      <button class="mobile-nav-item" data-tab="search" id="mob-tab-search">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span>Search</span>
+      </button>
+      
+      <button class="mobile-nav-item" data-tab="library" id="mob-tab-library">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
         </svg>
-        <span>Decades</span>
+        <span>Library</span>
       </button>
+    </nav>
 
-      <button class="tab-item" id="tab-share" aria-label="Share Track">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="18" cy="5" r="3"></circle>
-          <circle cx="6" cy="12" r="3"></circle>
-          <circle cx="18" cy="19" r="3"></circle>
-          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-        </svg>
-        <span>Share</span>
-      </button>
-
-      <button class="tab-item" id="tab-live" aria-label="Live Radio Status">
-        <span class="live-dot-badge"></span>
-        <span id="tab-listener-count">1 Live</span>
-      </button>
-    </footer>
-
-  </main>
-
-  <!-- Slide-up Decades & Library Drawer Modal (Matching Screenshot 4) -->
-  <div class="library-drawer-backdrop hidden" id="library-drawer-backdrop">
-    <div class="library-drawer" id="library-drawer">
-      <div class="drawer-handle"></div>
-      <div class="drawer-header">
-        <h2>Choose Rock Decade</h2>
-        <button class="drawer-close-btn" id="drawer-close-btn">✕</button>
+    <!-- 6. Mobile Floating Mini Player -->
+    <div class="mobile-mini-player hidden" id="mobile-mini-player">
+      <div class="mini-player-click-zone" id="mini-player-expand-btn">
+        <div class="mini-art-frame">
+          <div class="mini-art-placeholder" id="mini-art-placeholder">⚡</div>
+          <img src="" alt="" class="mini-art-img hidden" id="mini-artwork-img">
+        </div>
+        <div class="mini-track-meta">
+          <div class="mini-track-title" id="mini-track-title">Not Playing</div>
+          <div class="mini-track-artist" id="mini-track-artist">Select a track</div>
+        </div>
       </div>
-
-      <div class="decade-list">
-        <button class="decade-card-item active" data-decade="ALL">
-          <div class="card-art all-rock-art">⚡</div>
-          <div class="card-meta">
-            <h3>ALL ROCK RADIO</h3>
-            <p>Non-stop rock & metal across all eras</p>
-          </div>
-          <span class="card-radio-indicator">●</span>
+      
+      <div class="mini-player-controls">
+        <button class="mini-ctrl-btn" id="mini-play-pause-btn">
+          <svg class="play-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <polygon points="6 4 20 12 6 20 6 4"></polygon>
+          </svg>
+          <svg class="pause-icon hidden" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+            <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+          </svg>
         </button>
-
-        <button class="decade-card-item" data-decade="60s">
-          <div class="card-art era-60s">60s</div>
-          <div class="card-meta">
-            <h3>60s CLASSIC ROCK</h3>
-            <p>Hendrix, The Beatles, The Doors, The Who</p>
-          </div>
-          <span class="card-radio-indicator">●</span>
+        
+        <button class="mini-ctrl-btn" id="mini-next-btn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <polygon points="5 4 15 12 5 20 5 4"></polygon>
+            <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
+          </svg>
         </button>
+      </div>
+      
+      <!-- Thin progress bar indicator on top edge -->
+      <div class="mini-progress-fill" id="mini-progress-fill"></div>
+    </div>
 
-        <button class="decade-card-item" data-decade="70s">
-          <div class="card-art era-70s">70s</div>
-          <div class="card-meta">
-            <h3>70s HARD ROCK</h3>
-            <p>Led Zeppelin, Queen, AC/DC, Black Sabbath</p>
-          </div>
-          <span class="card-radio-indicator">●</span>
+    <!-- 7. Mobile Fullscreen Player View -->
+    <div class="mobile-fullscreen-player hidden" id="mobile-fullscreen-player">
+      <header class="fullscreen-header">
+        <button class="fullscreen-icon-btn" id="close-fullscreen-btn" aria-label="Close Fullscreen Player">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </button>
+        
+        <span class="fullscreen-header-title">NOW PLAYING</span>
+        
+        <button class="fullscreen-icon-btn" id="fullscreen-queue-btn" aria-label="Toggle Queue view">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+        </button>
+      </header>
 
-        <button class="decade-card-item" data-decade="80s">
-          <div class="card-art era-80s">80s</div>
-          <div class="card-meta">
-            <h3>80s HEAVY METAL</h3>
-            <p>Metallica, Guns N' Roses, Iron Maiden, Judas Priest</p>
-          </div>
-          <span class="card-radio-indicator">●</span>
-        </button>
+      <div class="fullscreen-player-content">
+        <!-- Artwork -->
+        <div class="fullscreen-artwork-card">
+          <div class="fullscreen-art-placeholder" id="fullscreen-art-placeholder">⚡</div>
+          <img src="" alt="" class="fullscreen-artwork-img hidden" id="fullscreen-artwork-img-element">
+        </div>
 
-        <button class="decade-card-item" data-decade="90s">
-          <div class="card-art era-90s">90s</div>
-          <div class="card-meta">
-            <h3>90s GRUNGE & ALT</h3>
-            <p>Nirvana, Soundgarden, Alice In Chains, Pearl Jam</p>
+        <!-- Track metadata and Like -->
+        <div class="fullscreen-meta-row">
+          <div class="fullscreen-track-meta">
+            <h1 class="fullscreen-track-title" id="fullscreen-track-title-txt">Not Playing</h1>
+            <p class="fullscreen-track-artist" id="fullscreen-track-artist-txt">Select a track</p>
           </div>
-          <span class="card-radio-indicator">●</span>
-        </button>
+          
+          <button class="fullscreen-heart-btn" id="fullscreen-like-btn" aria-label="Like Track">
+            <svg class="heart-icon outline" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <svg class="heart-icon filled hidden" viewBox="0 0 24 24" width="22" height="22" fill="#F5F5F5" stroke="#F5F5F5" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </button>
+        </div>
 
-        <button class="decade-card-item" data-decade="00s">
-          <div class="card-art era-00s">00s</div>
-          <div class="card-meta">
-            <h3>00s MODERN ROCK</h3>
-            <p>Linkin Park, Arctic Monkeys, The Strokes, Muse</p>
+        <!-- Timeline / Progress Scrubber -->
+        <div class="fullscreen-timeline-group">
+          <div class="timeline-slider-container" id="fullscreen-progress-container" role="slider" aria-label="Playback Slider" tabindex="0">
+            <div class="timeline-track">
+              <div class="timeline-buffer" id="fullscreen-progress-buffer"></div>
+              <div class="timeline-fill" id="fullscreen-progress-fill"></div>
+              <div class="timeline-thumb" id="fullscreen-progress-thumb"></div>
+            </div>
           </div>
-          <span class="card-radio-indicator">●</span>
-        </button>
+          
+          <div class="fullscreen-timeline-labels">
+            <span id="fullscreen-time-current">0:00</span>
+            <span id="fullscreen-time-duration">-0:00</span>
+          </div>
+        </div>
+
+        <!-- Audio controls row -->
+        <div class="fullscreen-controls-row">
+          <button class="fullscreen-ctrl-btn" id="fullscreen-shuffle-btn" title="Shuffle">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 3 21 3 21 8"></polyline>
+              <line x1="4" y1="20" x2="21" y2="3"></line>
+              <polyline points="21 16 21 21 16 21"></polyline>
+              <line x1="15" y1="15" x2="21" y2="21"></line>
+              <line x1="4" y1="4" x2="9" y2="9"></line>
+            </svg>
+          </button>
+          
+          <button class="fullscreen-ctrl-btn" id="fullscreen-prev-btn" title="Previous Track">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <polygon points="19 20 9 12 19 4 19 20"></polygon>
+              <line x1="5" y1="4" x2="5" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            </svg>
+          </button>
+          
+          <button class="fullscreen-play-btn" id="fullscreen-play-pause-btn" title="Play/Pause">
+            <svg class="play-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <polygon points="6 4 20 12 6 20 6 4"></polygon>
+            </svg>
+            <svg class="pause-icon hidden" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+              <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+            </svg>
+          </button>
+          
+          <button class="fullscreen-ctrl-btn" id="fullscreen-next-btn" title="Next Track">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <polygon points="5 4 15 12 5 20 5 4"></polygon>
+              <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            </svg>
+          </button>
+          
+          <button class="fullscreen-ctrl-btn" id="fullscreen-repeat-btn" title="Repeat">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="17 1 21 5 17 9"></polyline>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+              <polyline points="7 23 3 19 7 15"></polyline>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Volume row -->
+        <div class="fullscreen-volume-row">
+          <button class="fullscreen-ctrl-btn" id="fullscreen-mute-btn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            </svg>
+          </button>
+          <div class="fullscreen-vol-slider-wrapper">
+            <input type="range" min="0" max="100" value="100" class="fullscreen-vol-slider" id="fullscreen-volume-slider">
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 
   <!-- Toast Notification System -->
@@ -293,11 +433,11 @@
   <div class="autoplay-overlay hidden" id="autoplay-overlay">
     <div class="autoplay-content">
       <div class="autoplay-icon">⚡</div>
-      <p>TAP ANYWHERE TO UNMUTE ROCK RADIO</p>
+      <p>TAP ANYWHERE TO STREAM ROCK FREQUENCY</p>
     </div>
   </div>
 
-  <!-- Visually Hidden Audio Engine Container -->
+  <!-- Visually Hidden YouTube Audio Engine Container -->
   <div class="hidden-audio-engine">
     <div id="youtube-player"></div>
   </div>
