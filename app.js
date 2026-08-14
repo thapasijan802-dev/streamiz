@@ -76,25 +76,24 @@ let isMuted = false;
 const DOM = {
   trackTitle: document.getElementById('track-title'),
   trackArtist: document.getElementById('track-artist'),
-  engineBadgeText: document.getElementById('engine-badge-text'),
   playPauseBtn: document.getElementById('play-pause-btn'),
-  playBtnText: document.getElementById('play-btn-text'),
   playIcon: document.querySelector('.play-icon'),
   pauseIcon: document.querySelector('.pause-icon'),
   prevBtn: document.getElementById('prev-btn'),
   nextBtn: document.getElementById('next-btn'),
-  rewindBtn: document.getElementById('rewind-btn'),
-  forwardBtn: document.getElementById('forward-btn'),
   muteBtn: document.getElementById('mute-btn'),
   volumeIcon: document.querySelector('.volume-icon'),
   muteIcon: document.querySelector('.mute-icon'),
   volumeSlider: document.getElementById('volume-slider'),
   equalizer: document.getElementById('equalizer'),
+  vinylDisc: document.getElementById('vinyl-disc'),
   audioStatus: document.getElementById('audio-status'),
   statusText: document.getElementById('status-text'),
   listenerCountText: document.getElementById('listener-count-text'),
   autoplayOverlay: document.getElementById('autoplay-overlay'),
-  decadeSelector: document.getElementById('decade-selector'),
+  decadeDropdownTrigger: document.getElementById('decade-dropdown-trigger'),
+  decadeDropdownMenu: document.getElementById('decade-dropdown-menu'),
+  activeDecadeName: document.getElementById('active-decade-name'),
   progressBarContainer: document.getElementById('progress-bar-container'),
   progressBarFill: document.getElementById('progress-bar-fill'),
   progressBarBuffer: document.getElementById('progress-bar-buffer'),
@@ -102,9 +101,6 @@ const DOM = {
   currentTime: document.getElementById('current-time'),
   durationTime: document.getElementById('duration-time'),
   shareBtn: document.getElementById('share-btn'),
-  shortcutsBtn: document.getElementById('shortcuts-btn'),
-  shortcutsModal: document.getElementById('shortcuts-modal'),
-  modalCloseBtn: document.getElementById('modal-close-btn'),
   toastNotification: document.getElementById('toast-notification'),
   toastMessage: document.getElementById('toast-message')
 };
@@ -135,19 +131,32 @@ function getRandomPlaylist(decadeKey) {
   return list[Math.floor(Math.random() * list.length)];
 }
 
+const DECADE_LABELS = {
+  'ALL': 'ALL ROCK',
+  '60s': '60s ROCK',
+  '70s': '70s HARD ROCK',
+  '80s': '80s METAL',
+  '90s': '90s GRUNGE',
+  '00s': '00s MODERN'
+};
+
 // Initialize Decade Selection
 function setDecade(decadeKey) {
   currentDecade = decadeKey;
   currentPlaylistId = getRandomPlaylist(decadeKey);
 
-  // Update UI Pills
-  if (DOM.decadeSelector) {
-    const pills = DOM.decadeSelector.querySelectorAll('.decade-pill');
-    pills.forEach(pill => {
-      if (pill.dataset.decade === decadeKey) {
-        pill.classList.add('active');
+  // Update Dropdown UI
+  if (DOM.activeDecadeName) {
+    DOM.activeDecadeName.textContent = DECADE_LABELS[decadeKey] || 'ALL ROCK';
+  }
+
+  if (DOM.decadeDropdownMenu) {
+    const items = DOM.decadeDropdownMenu.querySelectorAll('.dropdown-item');
+    items.forEach(item => {
+      if (item.dataset.decade === decadeKey) {
+        item.classList.add('active');
       } else {
-        pill.classList.remove('active');
+        item.classList.remove('active');
       }
     });
   }
@@ -354,21 +363,16 @@ function updateTrackDisplay(title, artist) {
 
 function updatePlayPauseUI(playing) {
   isPlaying = playing;
-  const vinyl = document.getElementById('vinyl-record');
-  const tonearm = document.getElementById('tonearm');
-
   if (playing) {
     DOM.playIcon?.classList.add('hidden');
     DOM.pauseIcon?.classList.remove('hidden');
     DOM.equalizer?.classList.add('is-playing');
-    vinyl?.classList.add('is-spinning');
-    tonearm?.classList.add('is-active');
+    DOM.vinylDisc?.classList.add('is-spinning');
   } else {
     DOM.playIcon?.classList.remove('hidden');
     DOM.pauseIcon?.classList.add('hidden');
     DOM.equalizer?.classList.remove('is-playing');
-    vinyl?.classList.remove('is-spinning');
-    tonearm?.classList.remove('is-active');
+    DOM.vinylDisc?.classList.remove('is-spinning');
   }
 }
 
@@ -621,24 +625,41 @@ DOM.volumeSlider?.addEventListener('input', (e) => {
   setVolume(e.target.value);
 });
 
-// Bind Decade Selector Pills
-if (DOM.decadeSelector) {
-  DOM.decadeSelector.addEventListener('click', (e) => {
-    const pill = e.target.closest('.decade-pill');
-    if (!pill) return;
-    e.stopPropagation();
+// Toggle Decade Dropdown
+DOM.decadeDropdownTrigger?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const isHidden = DOM.decadeDropdownMenu?.classList.toggle('hidden');
+  DOM.decadeDropdownTrigger.setAttribute('aria-expanded', !isHidden);
+});
 
-    userHasInteracted = true;
-    hideAutoplayPrompt();
+// Close dropdown when clicking anywhere else
+window.addEventListener('click', (e) => {
+  if (DOM.decadeDropdownMenu && !DOM.decadeDropdownMenu.classList.contains('hidden')) {
+    DOM.decadeDropdownMenu.classList.add('hidden');
+    DOM.decadeDropdownTrigger?.setAttribute('aria-expanded', 'false');
+  }
+});
 
-    const decade = pill.dataset.decade;
-    if (decade && DECADE_PLAYLISTS[decade]) {
-      setDecade(decade);
-      updateStatus(`SWITCHING FREQUENCY // ${decade} ROCK`, true);
-      loadActiveDecadePlaylist(true);
-    }
-  });
-}
+// Select Decade from Dropdown
+DOM.decadeDropdownMenu?.addEventListener('click', (e) => {
+  const item = e.target.closest('.dropdown-item');
+  if (!item) return;
+  e.stopPropagation();
+
+  DOM.decadeDropdownMenu.classList.add('hidden');
+  DOM.decadeDropdownTrigger?.setAttribute('aria-expanded', 'false');
+
+  userHasInteracted = true;
+  hideAutoplayPrompt();
+
+  const decade = item.dataset.decade;
+  if (decade && DECADE_PLAYLISTS[decade]) {
+    setDecade(decade);
+    updateStatus(`SWITCHING FREQUENCY // ${DECADE_LABELS[decade] || decade}`, true);
+    loadActiveDecadePlaylist(true);
+    showToast(`Switched to ${DECADE_LABELS[decade] || decade}`);
+  }
+});
 
 // Share Track Action
 DOM.shareBtn?.addEventListener('click', (e) => {
