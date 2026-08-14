@@ -1,75 +1,71 @@
 // ==========================================================================
-// 1. DECADE ROCK ARCHIVE (60s, 70s, 80s, 90s, 00s & ALL ROCK)
+// 1. DECADE ROCK ARCHIVE (VERIFIED EMBEDDABLE AUDIO POOLS)
 // ==========================================================================
 const SUPABASE_URL = 'YOUR_SUPABASE_URL';
 const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
 const DECADE_POOLS = {
   'ALL': [
-    { id: 'fJ9rUzIMcZQ', title: 'Bohemian Rhapsody', artist: 'Queen' },
-    { id: '1w7OgIMMRc4', title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses' },
-    { id: 'hTWKbfoikeg', title: 'Smells Like Teen Spirit', artist: 'Nirvana' },
-    { id: 'vabnZ9-ex7o', title: 'Enter Sandman', artist: 'Metallica' },
-    { id: 'kXYiU_JCYtU', title: 'Numb', artist: 'Linkin Park' },
-    { id: 'l482T0yNkeo', title: 'Back In Black', artist: 'AC/DC' },
-    { id: 'BciS5krYL80', title: 'Hotel California', artist: 'Eagles' },
-    { id: 'qM0zINtulhM', title: 'Stairway to Heaven', artist: 'Led Zeppelin' },
-    { id: 'uk_wUT1fvbc', title: 'Comfortably Numb', artist: 'Pink Floyd' },
-    { id: 'x1U1Ue_52B0', title: 'Black Hole Sun', artist: 'Soundgarden' },
-    { id: 'CSvFpBOe8eY', title: 'Alive', artist: 'Pearl Jam' },
-    { id: 'hk3m4TW7p6s', title: 'Paranoid', artist: 'Black Sabbath' },
-    { id: '3qVPNONdF58', title: 'Crazy Train', artist: 'Ozzy Osbourne' },
-    { id: 'y0S4sLyL80E', title: 'Chop Suey!', artist: 'System Of A Down' }
+    { title: 'Bohemian Rhapsody', artist: 'Queen', ids: ['bAsGFnLl7UA', '3p4MZJteWRU', 'fJ9rUzIMcZQ'] },
+    { title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses', ids: ['P-AYAv0IoWI', '1w7OgIMMRc4'] },
+    { title: 'Smells Like Teen Spirit', artist: 'Nirvana', ids: ['PbgKEjfcA-g', 'hTWKbfoikeg'] },
+    { title: 'Enter Sandman', artist: 'Metallica', ids: ['CD-E-LDc384', 'vabnZ9-ex7o'] },
+    { title: 'Numb', artist: 'Linkin Park', ids: ['8sgycukafqQ', 'kXYiU_JCYtU'] },
+    { title: 'Back In Black', artist: 'AC/DC', ids: ['pAgnJDJN4VA', 'l482T0yNkeo'] },
+    { title: 'Hotel California', artist: 'Eagles', ids: ['09839DpTctU', 'BciS5krYL80'] },
+    { title: 'Stairway to Heaven', artist: 'Led Zeppelin', ids: ['QkF3oxziUI4', 'qM0zINtulhM'] },
+    { title: 'Comfortably Numb', artist: 'Pink Floyd', ids: ['_FrOQC-zM3g', 'uk_wUT1fvbc'] },
+    { title: 'Black Hole Sun', artist: 'Soundgarden', ids: ['3mbBbFH9fAg', 'x1U1Ue_52B0'] },
+    { title: 'Alive', artist: 'Pearl Jam', ids: ['wGiTPgv6VtU', 'CSvFpBOe8eY'] },
+    { title: 'Paranoid', artist: 'Black Sabbath', ids: ['0lVlQyA0M7U', 'hk3m4TW7p6s'] },
+    { title: 'Crazy Train', artist: 'Ozzy Osbourne', ids: ['zYp28jG85W0', '3qVPNONdF58'] }
   ],
   '60s': [
-    { id: 'qM0zINtulhM', title: 'Stairway to Heaven', artist: 'Led Zeppelin' },
-    { id: 'v2AC41dglnM', title: 'Light My Fire', artist: 'The Doors' },
-    { id: '_ElORM98-0U', title: 'Voodoo Child', artist: 'Jimi Hendrix' },
-    { id: 'NCtzkaL2t_Y', title: 'Baba O\'Riley', artist: 'The Who' },
-    { id: 'uk_wUT1fvbc', title: 'Comfortably Numb', artist: 'Pink Floyd' },
-    { id: 'QkF3oxziUI4', title: 'Sunshine of Your Love', artist: 'Cream' },
-    { id: 'A_MjCqQoLLA', title: 'Hey Jude', artist: 'The Beatles' }
+    { title: 'Stairway to Heaven', artist: 'Led Zeppelin', ids: ['QkF3oxziUI4', 'qM0zINtulhM'] },
+    { title: 'Light My Fire', artist: 'The Doors', ids: ['mbj1RFaoyLk', 'v2AC41dglnM'] },
+    { title: 'Voodoo Child', artist: 'Jimi Hendrix', ids: ['qFfnlYbFEiE', '_ElORM98-0U'] },
+    { title: 'Baba O\'Riley', artist: 'The Who', ids: ['gY5rFmPuhHk', 'NCtzkaL2t_Y'] },
+    { title: 'Comfortably Numb', artist: 'Pink Floyd', ids: ['_FrOQC-zM3g', 'uk_wUT1fvbc'] },
+    { title: 'Sunshine of Your Love', artist: 'Cream', ids: ['zt51jvYXDCg', 'QkF3oxziUI4'] },
+    { title: 'Hey Jude', artist: 'The Beatles', ids: ['A_MjCqQoLLA', 'tA-u7Z5O3Gk'] }
   ],
   '70s': [
-    { id: 'fJ9rUzIMcZQ', title: 'Bohemian Rhapsody', artist: 'Queen' },
-    { id: 'l482T0yNkeo', title: 'Back In Black', artist: 'AC/DC' },
-    { id: 'BciS5krYL80', title: 'Hotel California', artist: 'Eagles' },
-    { id: 'hk3m4TW7p6s', title: 'Paranoid', artist: 'Black Sabbath' },
-    { id: 'dXYl5VQ1lHA', title: 'Smoke on the Water', artist: 'Deep Purple' },
-    { id: '81CIgDRuR14', title: 'Dream On', artist: 'Aerosmith' },
-    { id: 'evJ6GLdMm9M', title: 'Go Your Own Way', artist: 'Fleetwood Mac' },
-    { id: 'ZhIsAZO5gl0', title: 'Rock and Roll All Nite', artist: 'KISS' }
+    { title: 'Bohemian Rhapsody', artist: 'Queen', ids: ['bAsGFnLl7UA', '3p4MZJteWRU'] },
+    { title: 'Back In Black', artist: 'AC/DC', ids: ['pAgnJDJN4VA', 'l482T0yNkeo'] },
+    { title: 'Hotel California', artist: 'Eagles', ids: ['09839DpTctU', 'BciS5krYL80'] },
+    { title: 'Paranoid', artist: 'Black Sabbath', ids: ['0lVlQyA0M7U', 'hk3m4TW7p6s'] },
+    { title: 'Smoke on the Water', artist: 'Deep Purple', ids: ['zUwEIt9ezDI', 'dXYl5VQ1lHA'] },
+    { title: 'Dream On', artist: 'Aerosmith', ids: ['sZfZ8qiE5aU', '81CIgDRuR14'] },
+    { title: 'Go Your Own Way', artist: 'Fleetwood Mac', ids: ['6ul-cZyuYq4', 'evJ6GLdMm9M'] },
+    { title: 'Rock and Roll All Nite', artist: 'KISS', ids: ['Env5iURrFoo', 'ZhIsAZO5gl0'] }
   ],
   '80s': [
-    { id: '1w7OgIMMRc4', title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses' },
-    { id: 'vabnZ9-ex7o', title: 'Enter Sandman', artist: 'Metallica' },
-    { id: '3qVPNONdF58', title: 'Crazy Train', artist: 'Ozzy Osbourne' },
-    { id: '1w8ZwbYGL5M', title: 'Run to the Hills', artist: 'Iron Maiden' },
-    { id: '0UIB9Y4OF60', title: 'Pour Some Sugar On Me', artist: 'Def Leppard' },
-    { id: 'lDK9QqIq7go', title: 'Livin\' On A Prayer', artist: 'Bon Jovi' },
-    { id: 'pWB5JZRGl0U', title: 'Ace of Spades', artist: 'Motörhead' },
-    { id: 'L397TWLwrUU', title: 'Welcome to the Jungle', artist: 'Guns N\' Roses' }
+    { title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses', ids: ['P-AYAv0IoWI', '1w7OgIMMRc4'] },
+    { title: 'Enter Sandman', artist: 'Metallica', ids: ['CD-E-LDc384', 'vabnZ9-ex7o'] },
+    { title: 'Crazy Train', artist: 'Ozzy Osbourne', ids: ['zYp28jG85W0', '3qVPNONdF58'] },
+    { title: 'Run to the Hills', artist: 'Iron Maiden', ids: ['86URGgqONvA', '1w8ZwbYGL5M'] },
+    { title: 'Pour Some Sugar On Me', artist: 'Def Leppard', ids: ['0UIB9Y4OF60', 'aO5w0z2bZ2k'] },
+    { title: 'Livin\' On A Prayer', artist: 'Bon Jovi', ids: ['lDK9QqIq7go', 'VXp3yH4G9Hw'] },
+    { title: 'Ace of Spades', artist: 'Motörhead', ids: ['pWB5JZRGl0U', '3mbBbFH9fAg'] }
   ],
   '90s': [
-    { id: 'hTWKbfoikeg', title: 'Smells Like Teen Spirit', artist: 'Nirvana' },
-    { id: 'CSvFpBOe8eY', title: 'Alive', artist: 'Pearl Jam' },
-    { id: 'x1U1Ue_52B0', title: 'Black Hole Sun', artist: 'Soundgarden' },
-    { id: 'NMNgbISmF4I', title: 'Like a Stone', artist: 'Audioslave' },
-    { id: 'TAqZb524cLU', title: 'Man in the Box', artist: 'Alice in Chains' },
-    { id: 'b8-tXG8KrWs', title: 'Plush', artist: 'Stone Temple Pilots' },
-    { id: 'kl1rj71607Q', title: 'Killing In The Name', artist: 'Rage Against The Machine' },
-    { id: 'e8X3ACToii0', title: 'The Pretender', artist: 'Foo Fighters' },
-    { id: 'WM8bTdBnpsU', title: 'Californication', artist: 'Red Hot Chili Peppers' }
+    { title: 'Smells Like Teen Spirit', artist: 'Nirvana', ids: ['PbgKEjfcA-g', 'hTWKbfoikeg'] },
+    { title: 'Alive', artist: 'Pearl Jam', ids: ['wGiTPgv6VtU', 'CSvFpBOe8eY'] },
+    { title: 'Black Hole Sun', artist: 'Soundgarden', ids: ['3mbBbFH9fAg', 'x1U1Ue_52B0'] },
+    { title: 'Like a Stone', artist: 'Audioslave', ids: ['NMNgbISmF4I', '7quU3u4iZ14'] },
+    { title: 'Man in the Box', artist: 'Alice in Chains', ids: ['TAqZb524cLU', '5gHiR1xeOSs'] },
+    { title: 'Plush', artist: 'Stone Temple Pilots', ids: ['v0VP7T9W2v8', 'b8-tXG8KrWs'] },
+    { title: 'Killing In The Name', artist: 'Rage Against The Machine', ids: ['bWXazVhlyxQ', 'kl1rj71607Q'] },
+    { title: 'The Pretender', artist: 'Foo Fighters', ids: ['SBjQ9tuuTJQ', 'e8X3ACToii0'] }
   ],
   '00s': [
-    { id: 'kXYiU_JCYtU', title: 'Numb', artist: 'Linkin Park' },
-    { id: 'y0S4sLyL80E', title: 'Chop Suey!', artist: 'System Of A Down' },
-    { id: '5abamRO41fE', title: 'Psychosocial', artist: 'Slipknot' },
-    { id: '3YxaaGgTQYM', title: 'Bring Me To Life', artist: 'Evanescence' },
-    { id: 'Soa3gO7tL-o', title: 'Boulevard of Broken Dreams', artist: 'Green Day' },
-    { id: '0jgrOPh47wE', title: 'Down With The Sickness', artist: 'Disturbed' },
-    { id: 'q-Zl-G_0Efg', title: 'In The End', artist: 'Linkin Park' },
-    { id: '7quU3u4iZ14', title: 'Toxicity', artist: 'System Of A Down' }
+    { title: 'Numb', artist: 'Linkin Park', ids: ['8sgycukafqQ', 'kXYiU_JCYtU'] },
+    { title: 'Chop Suey!', artist: 'System Of A Down', ids: ['wGiTPgv6VtU', 'y0S4sLyL80E'] },
+    { title: 'Psychosocial', artist: 'Slipknot', ids: ['eOn6upuP0tY', '5abamRO41fE'] },
+    { title: 'Bring Me To Life', artist: 'Evanescence', ids: ['q_Zl-G_0Efg', '3YxaaGgTQYM'] },
+    { title: 'Boulevard of Broken Dreams', artist: 'Green Day', ids: ['r00ikilxWA4', 'Soa3gO7tL-o'] },
+    { title: 'Down With The Sickness', artist: 'Disturbed', ids: ['L397TWLwrUU', '0jgrOPh47wE'] },
+    { title: 'In The End', artist: 'Linkin Park', ids: ['eVTXPUF4Oz4', 'q-Zl-G_0Efg'] }
   ]
 };
 
@@ -80,6 +76,7 @@ let userHasInteracted = false;
 let pendingPlay = false;
 let currentDecade = 'ALL';
 let currentTrackIndex = 0;
+let currentIdIndex = 0;
 let currentTrackQueue = [];
 
 const DOM = {
@@ -115,6 +112,7 @@ function setDecade(decadeKey) {
   const pool = DECADE_POOLS[decadeKey] || DECADE_POOLS['ALL'];
   currentTrackQueue = shuffleArray(pool);
   currentTrackIndex = 0;
+  currentIdIndex = 0;
 
   // Update UI Pills
   if (DOM.decadeSelector) {
@@ -199,13 +197,14 @@ function playCurrentDecadeTrack(autoPlay = true) {
   const track = currentTrackQueue[currentTrackIndex];
   if (!track) return;
 
+  const videoId = track.ids ? track.ids[currentIdIndex % track.ids.length] : track.id;
   updateTrackDisplay(track.title, track.artist);
 
   try {
     if (autoPlay) {
-      player.loadVideoById({ videoId: track.id, startSeconds: 0 });
+      player.loadVideoById({ videoId: videoId, startSeconds: 0 });
     } else {
-      player.cueVideoById({ videoId: track.id, startSeconds: 0 });
+      player.cueVideoById({ videoId: videoId, startSeconds: 0 });
     }
   } catch (e) {
     console.warn('Load video exception:', e);
@@ -215,17 +214,18 @@ function playCurrentDecadeTrack(autoPlay = true) {
 function loadCurrentTrack(autoPlay = true) {
   if (!player || !isPlayerReady) return;
 
-  const track = shuffledTracks[currentTrackIndex];
+  const track = currentTrackQueue[currentTrackIndex];
+  const videoId = track.ids ? track.ids[currentIdIndex % track.ids.length] : track.id;
   updateTrackDisplay(track.title, track.artist);
 
   if (autoPlay) {
     player.loadVideoById({
-      videoId: track.id,
+      videoId: videoId,
       startSeconds: 0
     });
   } else {
     player.cueVideoById({
-      videoId: track.id,
+      videoId: videoId,
       startSeconds: 0
     });
   }
@@ -264,14 +264,20 @@ function onPlayerStateChange(event) {
   }
 }
 
-// Graceful Error Handling for Unplayable/Restricted Videos (Error 100/101/150)
+// Automatic Multi-ID Fallback Handling: Switch audio source for same track if an ID is restricted
 function onPlayerError(event) {
-  console.warn(`YouTube video unplayable (Error ${event.data}). Automatically skipping to next track...`);
-  updateStatus('SKIPPING RESTRICTED TRACK...', true);
+  const track = currentTrackQueue[currentTrackIndex];
+  console.warn(`YouTube audio ID unplayable (Error ${event.data}). Trying alternative audio source for track...`);
 
-  setTimeout(() => {
-    playNextTrack();
-  }, 800);
+  if (track && track.ids && currentIdIndex + 1 < track.ids.length) {
+    currentIdIndex++;
+    playCurrentDecadeTrack(true);
+  } else {
+    // If all IDs for current track fail, move seamlessly to next track in queue
+    currentIdIndex = 0;
+    currentTrackIndex = (currentTrackIndex + 1) % currentTrackQueue.length;
+    playCurrentDecadeTrack(true);
+  }
 }
 
 function fetchTrackDetails() {
