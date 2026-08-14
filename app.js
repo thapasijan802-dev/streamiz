@@ -145,6 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function initYouTubePlayer() {
   if (player) return;
 
+  const currentTrack = currentTrackQueue[currentTrackIndex];
+  const initialVideoId = (currentTrack && currentTrack.ids) ? currentTrack.ids[0] : 'zYp28jG85W0';
+
   const playerVars = {
     autoplay: 1,
     controls: 0,
@@ -164,6 +167,7 @@ function initYouTubePlayer() {
     player = new YT.Player('youtube-player', {
       height: '200',
       width: '200',
+      videoId: initialVideoId,
       playerVars: playerVars,
       events: {
         onReady: onPlayerReady,
@@ -215,13 +219,13 @@ function playCurrentDecadeTrack(autoPlay = true) {
   const track = currentTrackQueue[currentTrackIndex];
   if (!track) return;
 
-  const videoId = track.ids ? track.ids[currentIdIndex % track.ids.length] : track.id;
+  const videoId = track.ids ? track.ids[currentIdIndex % track.ids.length] : (track.id || 'zYp28jG85W0');
   updateTrackDisplay(track.title, track.artist);
 
   try {
-    if (autoPlay) {
+    if (autoPlay && typeof player.loadVideoById === 'function') {
       player.loadVideoById({ videoId: videoId, startSeconds: 0 });
-    } else {
+    } else if (typeof player.cueVideoById === 'function') {
       player.cueVideoById({ videoId: videoId, startSeconds: 0 });
     }
   } catch (e) {
