@@ -239,6 +239,46 @@ html, body {
   text-transform: uppercase;
 }
 
+/* Decade Selector Styling */
+.decade-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0.5rem 0;
+}
+
+.decade-pill {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+  outline: none;
+}
+
+.decade-pill:hover {
+  background: var(--glass-hover-bg);
+  color: #ffffff;
+  border-color: var(--glass-hover-border);
+  transform: translateY(-1px);
+}
+
+.decade-pill.active {
+  background: #ffffff;
+  color: #0a0a0c;
+  border-color: #ffffff;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
+}
+
 /* 7. Glassmorphic Buttons */
 .controls-group {
   display: flex;
