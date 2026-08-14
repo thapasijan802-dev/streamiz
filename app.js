@@ -1,102 +1,199 @@
+/* ==========================================================================
+   ROCK RADIO // MULTI-ENGINE HI-FI AUDIO SYSTEM & SUPABASE REALTIME PRESENCE
+   ========================================================================== */
+
 // ==========================================================================
-// 1. DECADE ROCK ARCHIVE (VERIFIED EMBEDDABLE AUDIO POOLS)
+// 1. ROCK TRACK ARCHIVE (60s, 70s, 80s, 90s, 00s & ALL ROCK)
 // ==========================================================================
 const SUPABASE_URL = 'YOUR_SUPABASE_URL';
 const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
 const DECADE_POOLS = {
   'ALL': [
-    { title: 'Bohemian Rhapsody', artist: 'Queen', ids: ['bAsGFnLl7UA', '3p4MZJteWRU', 'fJ9rUzIMcZQ'] },
-    { title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses', ids: ['P-AYAv0IoWI', '1w7OgIMMRc4'] },
-    { title: 'Smells Like Teen Spirit', artist: 'Nirvana', ids: ['PbgKEjfcA-g', 'hTWKbfoikeg'] },
-    { title: 'Enter Sandman', artist: 'Metallica', ids: ['CD-E-LDc384', 'vabnZ9-ex7o'] },
-    { title: 'Numb', artist: 'Linkin Park', ids: ['8sgycukafqQ', 'kXYiU_JCYtU'] },
-    { title: 'Back In Black', artist: 'AC/DC', ids: ['pAgnJDJN4VA', 'l482T0yNkeo'] },
-    { title: 'Hotel California', artist: 'Eagles', ids: ['09839DpTctU', 'BciS5krYL80'] },
-    { title: 'Stairway to Heaven', artist: 'Led Zeppelin', ids: ['QkF3oxziUI4', 'qM0zINtulhM'] },
-    { title: 'Comfortably Numb', artist: 'Pink Floyd', ids: ['_FrOQC-zM3g', 'uk_wUT1fvbc'] },
-    { title: 'Black Hole Sun', artist: 'Soundgarden', ids: ['3mbBbFH9fAg', 'x1U1Ue_52B0'] },
-    { title: 'Alive', artist: 'Pearl Jam', ids: ['wGiTPgv6VtU', 'CSvFpBOe8eY'] },
-    { title: 'Paranoid', artist: 'Black Sabbath', ids: ['0lVlQyA0M7U', 'hk3m4TW7p6s'] },
-    { title: 'Crazy Train', artist: 'Ozzy Osbourne', ids: ['zYp28jG85W0', '3qVPNONdF58'] }
+    {
+      title: 'Crazy Train',
+      artist: 'Ozzy Osbourne',
+      id: 'zYp28jG85W0',
+      backupIds: ['3qVPNONdF58', 'tMDFv5m18Pw']
+    },
+    {
+      title: 'Bohemian Rhapsody',
+      artist: 'Queen',
+      id: 'bAsGFnLl7UA',
+      backupIds: ['3p4MZJteWRU', 'fJ9rUzIMcZQ']
+    },
+    {
+      title: 'Sweet Child O\' Mine',
+      artist: 'Guns N\' Roses',
+      id: 'P-AYAv0IoWI',
+      backupIds: ['1w7OgIMMRc4', 'P-AYAv0IoWI']
+    },
+    {
+      title: 'Smells Like Teen Spirit',
+      artist: 'Nirvana',
+      id: 'PbgKEjfcA-g',
+      backupIds: ['hTWKbfoikeg', 'fregObNcHC8']
+    },
+    {
+      title: 'Enter Sandman',
+      artist: 'Metallica',
+      id: 'CD-E-LDc384',
+      backupIds: ['vabnZ9-ex7o', '1K93p0A4T8Y']
+    },
+    {
+      title: 'Numb',
+      artist: 'Linkin Park',
+      id: '8sgycukafqQ',
+      backupIds: ['kXYiU_JCYtU', '8sgycukafqQ']
+    },
+    {
+      title: 'Back In Black',
+      artist: 'AC/DC',
+      id: 'pAgnJDJN4VA',
+      backupIds: ['l482T0yNkeo', 'pAgnJDJN4VA']
+    },
+    {
+      title: 'Hotel California',
+      artist: 'Eagles',
+      id: '09839DpTctU',
+      backupIds: ['BciS5krYL80', '09839DpTctU']
+    },
+    {
+      title: 'Stairway to Heaven',
+      artist: 'Led Zeppelin',
+      id: 'QkF3oxziUI4',
+      backupIds: ['qM0zINtulhM', 'QkF3oxziUI4']
+    },
+    {
+      title: 'Comfortably Numb',
+      artist: 'Pink Floyd',
+      id: '_FrOQC-zM3g',
+      backupIds: ['uk_wUT1fvbc', '_FrOQC-zM3g']
+    },
+    {
+      title: 'Black Hole Sun',
+      artist: 'Soundgarden',
+      id: '3mbBbFH9fAg',
+      backupIds: ['x1U1Ue_52B0', '3mbBbFH9fAg']
+    },
+    {
+      title: 'Alive',
+      artist: 'Pearl Jam',
+      id: 'wGiTPgv6VtU',
+      backupIds: ['CSvFpBOe8eY', 'wGiTPgv6VtU']
+    },
+    {
+      title: 'Paranoid',
+      artist: 'Black Sabbath',
+      id: '0lVlQyA0M7U',
+      backupIds: ['hk3m4TW7p6s', '0lVlQyA0M7U']
+    }
   ],
   '60s': [
-    { title: 'Stairway to Heaven', artist: 'Led Zeppelin', ids: ['QkF3oxziUI4', 'qM0zINtulhM'] },
-    { title: 'Light My Fire', artist: 'The Doors', ids: ['mbj1RFaoyLk', 'v2AC41dglnM'] },
-    { title: 'Voodoo Child', artist: 'Jimi Hendrix', ids: ['qFfnlYbFEiE', '_ElORM98-0U'] },
-    { title: 'Baba O\'Riley', artist: 'The Who', ids: ['gY5rFmPuhHk', 'NCtzkaL2t_Y'] },
-    { title: 'Comfortably Numb', artist: 'Pink Floyd', ids: ['_FrOQC-zM3g', 'uk_wUT1fvbc'] },
-    { title: 'Sunshine of Your Love', artist: 'Cream', ids: ['zt51jvYXDCg', 'QkF3oxziUI4'] },
-    { title: 'Hey Jude', artist: 'The Beatles', ids: ['A_MjCqQoLLA', 'tA-u7Z5O3Gk'] }
+    { title: 'Stairway to Heaven', artist: 'Led Zeppelin', id: 'QkF3oxziUI4', backupIds: ['qM0zINtulhM'] },
+    { title: 'Light My Fire', artist: 'The Doors', id: 'mbj1RFaoyLk', backupIds: ['v2AC41dglnM'] },
+    { title: 'Voodoo Child', artist: 'Jimi Hendrix', id: 'qFfnlYbFEiE', backupIds: ['_ElORM98-0U'] },
+    { title: 'Baba O\'Riley', artist: 'The Who', id: 'gY5rFmPuhHk', backupIds: ['NCtzkaL2t_Y'] },
+    { title: 'Comfortably Numb', artist: 'Pink Floyd', id: '_FrOQC-zM3g', backupIds: ['uk_wUT1fvbc'] },
+    { title: 'Sunshine of Your Love', artist: 'Cream', id: 'zt51jvYXDCg', backupIds: ['QkF3oxziUI4'] },
+    { title: 'Hey Jude', artist: 'The Beatles', id: 'A_MjCqQoLLA', backupIds: ['tA-u7Z5O3Gk'] }
   ],
   '70s': [
-    { title: 'Bohemian Rhapsody', artist: 'Queen', ids: ['bAsGFnLl7UA', '3p4MZJteWRU'] },
-    { title: 'Back In Black', artist: 'AC/DC', ids: ['pAgnJDJN4VA', 'l482T0yNkeo'] },
-    { title: 'Hotel California', artist: 'Eagles', ids: ['09839DpTctU', 'BciS5krYL80'] },
-    { title: 'Paranoid', artist: 'Black Sabbath', ids: ['0lVlQyA0M7U', 'hk3m4TW7p6s'] },
-    { title: 'Smoke on the Water', artist: 'Deep Purple', ids: ['zUwEIt9ezDI', 'dXYl5VQ1lHA'] },
-    { title: 'Dream On', artist: 'Aerosmith', ids: ['sZfZ8qiE5aU', '81CIgDRuR14'] },
-    { title: 'Go Your Own Way', artist: 'Fleetwood Mac', ids: ['6ul-cZyuYq4', 'evJ6GLdMm9M'] },
-    { title: 'Rock and Roll All Nite', artist: 'KISS', ids: ['Env5iURrFoo', 'ZhIsAZO5gl0'] }
+    { title: 'Bohemian Rhapsody', artist: 'Queen', id: 'bAsGFnLl7UA', backupIds: ['3p4MZJteWRU'] },
+    { title: 'Back In Black', artist: 'AC/DC', id: 'pAgnJDJN4VA', backupIds: ['l482T0yNkeo'] },
+    { title: 'Hotel California', artist: 'Eagles', id: '09839DpTctU', backupIds: ['BciS5krYL80'] },
+    { title: 'Paranoid', artist: 'Black Sabbath', id: '0lVlQyA0M7U', backupIds: ['hk3m4TW7p6s'] },
+    { title: 'Smoke on the Water', artist: 'Deep Purple', id: 'zUwEIt9ezDI', backupIds: ['dXYl5VQ1lHA'] },
+    { title: 'Dream On', artist: 'Aerosmith', id: 'sZfZ8qiE5aU', backupIds: ['81CIgDRuR14'] },
+    { title: 'Go Your Own Way', artist: 'Fleetwood Mac', id: '6ul-cZyuYq4', backupIds: ['evJ6GLdMm9M'] },
+    { title: 'Rock and Roll All Nite', artist: 'KISS', id: 'Env5iURrFoo', backupIds: ['ZhIsAZO5gl0'] }
   ],
   '80s': [
-    { title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses', ids: ['P-AYAv0IoWI', '1w7OgIMMRc4'] },
-    { title: 'Enter Sandman', artist: 'Metallica', ids: ['CD-E-LDc384', 'vabnZ9-ex7o'] },
-    { title: 'Crazy Train', artist: 'Ozzy Osbourne', ids: ['zYp28jG85W0', '3qVPNONdF58'] },
-    { title: 'Run to the Hills', artist: 'Iron Maiden', ids: ['86URGgqONvA', '1w8ZwbYGL5M'] },
-    { title: 'Pour Some Sugar On Me', artist: 'Def Leppard', ids: ['0UIB9Y4OF60', 'aO5w0z2bZ2k'] },
-    { title: 'Livin\' On A Prayer', artist: 'Bon Jovi', ids: ['lDK9QqIq7go', 'VXp3yH4G9Hw'] },
-    { title: 'Ace of Spades', artist: 'Motörhead', ids: ['pWB5JZRGl0U', '3mbBbFH9fAg'] }
+    { title: 'Crazy Train', artist: 'Ozzy Osbourne', id: 'zYp28jG85W0', backupIds: ['3qVPNONdF58'] },
+    { title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses', id: 'P-AYAv0IoWI', backupIds: ['1w7OgIMMRc4'] },
+    { title: 'Enter Sandman', artist: 'Metallica', id: 'CD-E-LDc384', backupIds: ['vabnZ9-ex7o'] },
+    { title: 'Run to the Hills', artist: 'Iron Maiden', id: '86URGgqONvA', backupIds: ['1w8ZwbYGL5M'] },
+    { title: 'Pour Some Sugar On Me', artist: 'Def Leppard', id: '0UIB9Y4OF60', backupIds: ['aO5w0z2bZ2k'] },
+    { title: 'Livin\' On A Prayer', artist: 'Bon Jovi', id: 'lDK9QqIq7go', backupIds: ['VXp3yH4G9Hw'] },
+    { title: 'Ace of Spades', artist: 'Motörhead', id: 'pWB5JZRGl0U', backupIds: ['3mbBbFH9fAg'] }
   ],
   '90s': [
-    { title: 'Smells Like Teen Spirit', artist: 'Nirvana', ids: ['PbgKEjfcA-g', 'hTWKbfoikeg'] },
-    { title: 'Alive', artist: 'Pearl Jam', ids: ['wGiTPgv6VtU', 'CSvFpBOe8eY'] },
-    { title: 'Black Hole Sun', artist: 'Soundgarden', ids: ['3mbBbFH9fAg', 'x1U1Ue_52B0'] },
-    { title: 'Like a Stone', artist: 'Audioslave', ids: ['NMNgbISmF4I', '7quU3u4iZ14'] },
-    { title: 'Man in the Box', artist: 'Alice in Chains', ids: ['TAqZb524cLU', '5gHiR1xeOSs'] },
-    { title: 'Plush', artist: 'Stone Temple Pilots', ids: ['v0VP7T9W2v8', 'b8-tXG8KrWs'] },
-    { title: 'Killing In The Name', artist: 'Rage Against The Machine', ids: ['bWXazVhlyxQ', 'kl1rj71607Q'] },
-    { title: 'The Pretender', artist: 'Foo Fighters', ids: ['SBjQ9tuuTJQ', 'e8X3ACToii0'] }
+    { title: 'Smells Like Teen Spirit', artist: 'Nirvana', id: 'PbgKEjfcA-g', backupIds: ['hTWKbfoikeg'] },
+    { title: 'Alive', artist: 'Pearl Jam', id: 'wGiTPgv6VtU', backupIds: ['CSvFpBOe8eY'] },
+    { title: 'Black Hole Sun', artist: 'Soundgarden', id: '3mbBbFH9fAg', backupIds: ['x1U1Ue_52B0'] },
+    { title: 'Like a Stone', artist: 'Audioslave', id: 'NMNgbISmF4I', backupIds: ['7quU3u4iZ14'] },
+    { title: 'Man in the Box', artist: 'Alice in Chains', id: 'TAqZb524cLU', backupIds: ['5gHiR1xeOSs'] },
+    { title: 'Plush', artist: 'Stone Temple Pilots', id: 'v0VP7T9W2v8', backupIds: ['b8-tXG8KrWs'] },
+    { title: 'Killing In The Name', artist: 'Rage Against The Machine', id: 'bWXazVhlyxQ', backupIds: ['kl1rj71607Q'] },
+    { title: 'The Pretender', artist: 'Foo Fighters', id: 'SBjQ9tuuTJQ', backupIds: ['e8X3ACToii0'] }
   ],
   '00s': [
-    { title: 'Numb', artist: 'Linkin Park', ids: ['8sgycukafqQ', 'kXYiU_JCYtU'] },
-    { title: 'Chop Suey!', artist: 'System Of A Down', ids: ['wGiTPgv6VtU', 'y0S4sLyL80E'] },
-    { title: 'Psychosocial', artist: 'Slipknot', ids: ['eOn6upuP0tY', '5abamRO41fE'] },
-    { title: 'Bring Me To Life', artist: 'Evanescence', ids: ['q_Zl-G_0Efg', '3YxaaGgTQYM'] },
-    { title: 'Boulevard of Broken Dreams', artist: 'Green Day', ids: ['r00ikilxWA4', 'Soa3gO7tL-o'] },
-    { title: 'Down With The Sickness', artist: 'Disturbed', ids: ['L397TWLwrUU', '0jgrOPh47wE'] },
-    { title: 'In The End', artist: 'Linkin Park', ids: ['eVTXPUF4Oz4', 'q-Zl-G_0Efg'] }
+    { title: 'Numb', artist: 'Linkin Park', id: '8sgycukafqQ', backupIds: ['kXYiU_JCYtU'] },
+    { title: 'Chop Suey!', artist: 'System Of A Down', id: 'wGiTPgv6VtU', backupIds: ['y0S4sLyL80E'] },
+    { title: 'Psychosocial', artist: 'Slipknot', id: 'eOn6upuP0tY', backupIds: ['5abamRO41fE'] },
+    { title: 'Bring Me To Life', artist: 'Evanescence', id: 'q_Zl-G_0Efg', backupIds: ['3YxaaGgTQYM'] },
+    { title: 'Boulevard of Broken Dreams', artist: 'Green Day', id: 'r00ikilxWA4', backupIds: ['Soa3gO7tL-o'] },
+    { title: 'Down With The Sickness', artist: 'Disturbed', id: 'L397TWLwrUU', backupIds: ['0jgrOPh47wE'] },
+    { title: 'In The End', artist: 'Linkin Park', id: 'eVTXPUF4Oz4', backupIds: ['q-Zl-G_0Efg'] }
   ]
 };
 
-// App State
+// Global App State
 let player = null;
 let isPlayerReady = false;
+let isPlaying = false;
 let userHasInteracted = false;
 let pendingPlay = false;
 let currentDecade = 'ALL';
 let currentTrackIndex = 0;
 let currentIdIndex = 0;
 let currentTrackQueue = [];
+let isDraggingSeekbar = false;
+let currentVolume = 100;
+let isMuted = false;
+let activeEngine = 'YOUTUBE_HIFI'; // 'YOUTUBE_HIFI' or 'HTML5_AUDIO'
 
+// DOM Elements
 const DOM = {
   trackTitle: document.getElementById('track-title'),
   trackArtist: document.getElementById('track-artist'),
+  engineBadgeText: document.getElementById('engine-badge-text'),
   playPauseBtn: document.getElementById('play-pause-btn'),
   playBtnText: document.getElementById('play-btn-text'),
   playIcon: document.querySelector('.play-icon'),
   pauseIcon: document.querySelector('.pause-icon'),
+  prevBtn: document.getElementById('prev-btn'),
   nextBtn: document.getElementById('next-btn'),
+  rewindBtn: document.getElementById('rewind-btn'),
+  forwardBtn: document.getElementById('forward-btn'),
+  muteBtn: document.getElementById('mute-btn'),
+  volumeIcon: document.querySelector('.volume-icon'),
+  muteIcon: document.querySelector('.mute-icon'),
+  volumeSlider: document.getElementById('volume-slider'),
   equalizer: document.getElementById('equalizer'),
   audioStatus: document.getElementById('audio-status'),
   statusText: document.getElementById('status-text'),
   listenerCountText: document.getElementById('listener-count-text'),
   autoplayOverlay: document.getElementById('autoplay-overlay'),
-  decadeSelector: document.getElementById('decade-selector')
+  decadeSelector: document.getElementById('decade-selector'),
+  progressBarContainer: document.getElementById('progress-bar-container'),
+  progressBarFill: document.getElementById('progress-bar-fill'),
+  progressBarBuffer: document.getElementById('progress-bar-buffer'),
+  progressThumb: document.getElementById('progress-thumb'),
+  currentTime: document.getElementById('current-time'),
+  durationTime: document.getElementById('duration-time'),
+  shareBtn: document.getElementById('share-btn'),
+  shortcutsBtn: document.getElementById('shortcuts-btn'),
+  shortcutsModal: document.getElementById('shortcuts-modal'),
+  modalCloseBtn: document.getElementById('modal-close-btn'),
+  toastNotification: document.getElementById('toast-notification'),
+  toastMessage: document.getElementById('toast-message'),
+  html5Audio: document.getElementById('html5-audio-player')
 };
 
 const userId = 'user_' + Math.random().toString(36).substring(2, 9);
 
+// Utility: Fisher-Yates Shuffle
 function shuffleArray(array) {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -106,7 +203,25 @@ function shuffleArray(array) {
   return arr;
 }
 
-// Initialize Queue for active decade
+// Format Seconds to MM:SS
+function formatTime(seconds) {
+  if (isNaN(seconds) || seconds < 0) return '0:00';
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+// Show Toast Notification
+function showToast(message) {
+  if (!DOM.toastNotification || !DOM.toastMessage) return;
+  DOM.toastMessage.textContent = message;
+  DOM.toastNotification.classList.remove('hidden');
+  setTimeout(() => {
+    DOM.toastNotification.classList.add('hidden');
+  }, 2500);
+}
+
+// Initialize Decade Queue
 function setDecade(decadeKey) {
   currentDecade = decadeKey;
   const pool = DECADE_POOLS[decadeKey] || DECADE_POOLS['ALL'];
@@ -133,20 +248,21 @@ function setDecade(decadeKey) {
   }
 }
 
-// Set initial track display immediately
+// Initial Setup
 document.addEventListener('DOMContentLoaded', () => {
   setDecade('ALL');
+  initSupabaseRealtime();
 });
 
 // ==========================================================================
-// 2. YOUTUBE IFRAME PLAYER API INTEGRATION
+// 2. YOUTUBE IFRAME & MULTI-ENGINE AUDIO INTEGRATION
 // ==========================================================================
 
 function initYouTubePlayer() {
   if (player) return;
 
   const currentTrack = currentTrackQueue[currentTrackIndex];
-  const initialVideoId = (currentTrack && currentTrack.ids) ? currentTrack.ids[0] : 'zYp28jG85W0';
+  const initialVideoId = (currentTrack && currentTrack.ids) ? currentTrack.ids[0] : (currentTrack?.id || 'zYp28jG85W0');
 
   const playerVars = {
     autoplay: 1,
@@ -180,12 +296,12 @@ function initYouTubePlayer() {
   }
 }
 
-// Global callback invoked automatically by YouTube API script once ready
+// Global callback invoked automatically by YouTube API script
 window.onYouTubeIframeAPIReady = function() {
   initYouTubePlayer();
 };
 
-// Load YouTube API script asynchronously with fallback check
+// Asynchronously load YouTube IFrame API
 (function loadYouTubeAPI() {
   if (window.YT && window.YT.Player) {
     initYouTubePlayer();
@@ -214,42 +330,30 @@ function onPlayerReady(event) {
 }
 
 function playCurrentDecadeTrack(autoPlay = true) {
-  if (!player || !isPlayerReady) return;
-
   const track = currentTrackQueue[currentTrackIndex];
   if (!track) return;
 
-  const videoId = track.ids ? track.ids[currentIdIndex % track.ids.length] : (track.id || 'zYp28jG85W0');
   updateTrackDisplay(track.title, track.artist);
+  resetProgressBar();
 
-  try {
-    if (autoPlay && typeof player.loadVideoById === 'function') {
-      player.loadVideoById({ videoId: videoId, startSeconds: 0 });
-    } else if (typeof player.cueVideoById === 'function') {
-      player.cueVideoById({ videoId: videoId, startSeconds: 0 });
+  // Primary: YouTube Hi-Fi Engine
+  if (player && isPlayerReady && activeEngine === 'YOUTUBE_HIFI') {
+    let videoId = track.id;
+    if (track.backupIds && currentIdIndex > 0) {
+      videoId = track.backupIds[(currentIdIndex - 1) % track.backupIds.length];
+    } else if (track.ids) {
+      videoId = track.ids[currentIdIndex % track.ids.length];
     }
-  } catch (e) {
-    console.warn('Load video exception:', e);
-  }
-}
 
-function loadCurrentTrack(autoPlay = true) {
-  if (!player || !isPlayerReady) return;
-
-  const track = currentTrackQueue[currentTrackIndex];
-  const videoId = track.ids ? track.ids[currentIdIndex % track.ids.length] : track.id;
-  updateTrackDisplay(track.title, track.artist);
-
-  if (autoPlay) {
-    player.loadVideoById({
-      videoId: videoId,
-      startSeconds: 0
-    });
-  } else {
-    player.cueVideoById({
-      videoId: videoId,
-      startSeconds: 0
-    });
+    try {
+      if (autoPlay && typeof player.loadVideoById === 'function') {
+        player.loadVideoById({ videoId: videoId, startSeconds: 0 });
+      } else if (typeof player.cueVideoById === 'function') {
+        player.cueVideoById({ videoId: videoId, startSeconds: 0 });
+      }
+    } catch (e) {
+      console.warn('Load video exception:', e);
+    }
   }
 }
 
@@ -258,6 +362,7 @@ function onPlayerStateChange(event) {
 
   switch (event.data) {
     case YT.PlayerState.PLAYING:
+      isPlaying = true;
       hideAutoplayPrompt();
       updatePlayPauseUI(true);
       fetchTrackDetails();
@@ -265,6 +370,7 @@ function onPlayerStateChange(event) {
       break;
 
     case YT.PlayerState.PAUSED:
+      isPlaying = false;
       updatePlayPauseUI(false);
       updateStatus('STREAM PAUSED', false);
       break;
@@ -286,16 +392,17 @@ function onPlayerStateChange(event) {
   }
 }
 
-// Automatic Multi-ID Fallback Handling: Switch audio source for same track if an ID is restricted
+// Automatic Multi-ID Fallback Handling
 function onPlayerError(event) {
   const track = currentTrackQueue[currentTrackIndex];
-  console.warn(`YouTube audio ID unplayable (Error ${event.data}). Trying alternative audio source for track...`);
+  console.warn(`Audio stream error (Code ${event.data}). Activating backup audio stream for ${track?.title}...`);
 
-  if (track && track.ids && currentIdIndex + 1 < track.ids.length) {
+  const backupCount = (track?.backupIds?.length || 0) + (track?.ids?.length || 1);
+  if (currentIdIndex + 1 < backupCount) {
     currentIdIndex++;
     playCurrentDecadeTrack(true);
   } else {
-    // If all IDs for current track fail, move seamlessly to next track in queue
+    // If all stream IDs fail, smoothly advance to next song in queue
     currentIdIndex = 0;
     currentTrackIndex = (currentTrackIndex + 1) % currentTrackQueue.length;
     playCurrentDecadeTrack(true);
@@ -321,8 +428,9 @@ function updateTrackDisplay(title, artist) {
   }, 150);
 }
 
-function updatePlayPauseUI(isPlaying) {
-  if (isPlaying) {
+function updatePlayPauseUI(playing) {
+  isPlaying = playing;
+  if (playing) {
     DOM.playIcon.classList.add('hidden');
     DOM.pauseIcon.classList.remove('hidden');
     DOM.playBtnText.textContent = 'PAUSE';
@@ -357,7 +465,121 @@ function hideAutoplayPrompt() {
 }
 
 // ==========================================================================
-// 3. USER INTERFACE CONTROLS
+// 3. INTERACTIVE SEEKBAR & REAL-TIME PROGRESS TRACKING
+// ==========================================================================
+
+function resetProgressBar() {
+  if (DOM.progressBarFill) DOM.progressBarFill.style.width = '0%';
+  if (DOM.progressThumb) DOM.progressThumb.style.left = '0%';
+  if (DOM.currentTime) DOM.currentTime.textContent = '0:00';
+  if (DOM.durationTime) DOM.durationTime.textContent = '0:00';
+}
+
+// Real-time ticker to update progress bar and time labels
+setInterval(() => {
+  if (!player || !isPlayerReady || isDraggingSeekbar) return;
+
+  try {
+    if (typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
+      const current = player.getCurrentTime() || 0;
+      const duration = player.getDuration() || 0;
+
+      if (duration > 0) {
+        const percentage = Math.min(100, Math.max(0, (current / duration) * 100));
+        if (DOM.progressBarFill) DOM.progressBarFill.style.width = `${percentage}%`;
+        if (DOM.progressThumb) DOM.progressThumb.style.left = `${percentage}%`;
+        if (DOM.currentTime) DOM.currentTime.textContent = formatTime(current);
+        if (DOM.durationTime) DOM.durationTime.textContent = formatTime(duration);
+
+        // Loaded buffer fraction
+        if (typeof player.getVideoLoadedFraction === 'function' && DOM.progressBarBuffer) {
+          const loadedPct = (player.getVideoLoadedFraction() || 0) * 100;
+          DOM.progressBarBuffer.style.width = `${loadedPct}%`;
+        }
+      }
+    }
+  } catch (err) {
+    // Silent catch
+  }
+}, 250);
+
+// Seek by percentage
+function seekToPercentage(pct) {
+  if (!player || !isPlayerReady || typeof player.getDuration !== 'function') return;
+
+  const duration = player.getDuration() || 0;
+  if (duration > 0) {
+    const targetSeconds = (pct / 100) * duration;
+    player.seekTo(targetSeconds, true);
+    if (DOM.currentTime) DOM.currentTime.textContent = formatTime(targetSeconds);
+    if (DOM.progressBarFill) DOM.progressBarFill.style.width = `${pct}%`;
+    if (DOM.progressThumb) DOM.progressThumb.style.left = `${pct}%`;
+  }
+}
+
+// Seek by Delta (+10s or -10s)
+function seekDelta(seconds) {
+  if (!player || !isPlayerReady || typeof player.getCurrentTime !== 'function') return;
+
+  const current = player.getCurrentTime() || 0;
+  const duration = player.getDuration() || 0;
+  const target = Math.max(0, Math.min(duration, current + seconds));
+  player.seekTo(target, true);
+  showToast(seconds > 0 ? `+${seconds}s Forward` : `${seconds}s Backward`);
+}
+
+// Scrubber Click & Drag Listeners
+if (DOM.progressBarContainer) {
+  function handleSeekEvent(e) {
+    const rect = DOM.progressBarContainer.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clampedX = Math.max(0, Math.min(rect.width, clientX - rect.left));
+    const percentage = (clampedX / rect.width) * 100;
+    seekToPercentage(percentage);
+  }
+
+  DOM.progressBarContainer.addEventListener('mousedown', (e) => {
+    isDraggingSeekbar = true;
+    DOM.progressBarContainer.classList.add('is-dragging');
+    handleSeekEvent(e);
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (isDraggingSeekbar) {
+      handleSeekEvent(e);
+    }
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (isDraggingSeekbar) {
+      isDraggingSeekbar = false;
+      DOM.progressBarContainer.classList.remove('is-dragging');
+    }
+  });
+
+  // Touch Support
+  DOM.progressBarContainer.addEventListener('touchstart', (e) => {
+    isDraggingSeekbar = true;
+    DOM.progressBarContainer.classList.add('is-dragging');
+    handleSeekEvent(e);
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (isDraggingSeekbar) {
+      handleSeekEvent(e);
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    if (isDraggingSeekbar) {
+      isDraggingSeekbar = false;
+      DOM.progressBarContainer.classList.remove('is-dragging');
+    }
+  });
+}
+
+// ==========================================================================
+// 4. USER CONTROLS (PLAY, NEXT, PREV, SEEK, VOLUME, DECADES)
 // ==========================================================================
 
 function togglePlayPause() {
@@ -380,7 +602,7 @@ function togglePlayPause() {
     }
   } catch (err) {
     console.warn('Play video exception:', err);
-    loadCurrentTrack(true);
+    playCurrentDecadeTrack(true);
   }
 }
 
@@ -391,20 +613,95 @@ function playNextTrack() {
 
   if (currentTrackQueue.length === 0) return;
 
+  currentIdIndex = 0;
   currentTrackIndex = (currentTrackIndex + 1) % currentTrackQueue.length;
   updateStatus(`STREAMING // ${currentDecade} ROCK`, true);
   playCurrentDecadeTrack(true);
 }
 
-// Bind Button Listeners
-DOM.playPauseBtn.addEventListener('click', (e) => {
+function playPrevTrack() {
+  userHasInteracted = true;
+  pendingPlay = true;
+  hideAutoplayPrompt();
+
+  if (currentTrackQueue.length === 0) return;
+
+  currentIdIndex = 0;
+  currentTrackIndex = (currentTrackIndex - 1 + currentTrackQueue.length) % currentTrackQueue.length;
+  updateStatus(`STREAMING // ${currentDecade} ROCK`, true);
+  playCurrentDecadeTrack(true);
+}
+
+function toggleMute() {
+  if (!player || !isPlayerReady) return;
+
+  if (isMuted) {
+    player.unMute();
+    player.setVolume(currentVolume || 100);
+    isMuted = false;
+    DOM.volumeIcon?.classList.remove('hidden');
+    DOM.muteIcon?.classList.add('hidden');
+    if (DOM.volumeSlider) DOM.volumeSlider.value = currentVolume || 100;
+  } else {
+    player.mute();
+    isMuted = true;
+    DOM.volumeIcon?.classList.add('hidden');
+    DOM.muteIcon?.classList.remove('hidden');
+    if (DOM.volumeSlider) DOM.volumeSlider.value = 0;
+  }
+}
+
+function setVolume(val) {
+  currentVolume = parseInt(val, 10);
+  if (!player || !isPlayerReady) return;
+
+  if (currentVolume === 0) {
+    player.mute();
+    isMuted = true;
+    DOM.volumeIcon?.classList.add('hidden');
+    DOM.muteIcon?.classList.remove('hidden');
+  } else {
+    if (isMuted) player.unMute();
+    player.setVolume(currentVolume);
+    isMuted = false;
+    DOM.volumeIcon?.classList.remove('hidden');
+    DOM.muteIcon?.classList.add('hidden');
+  }
+}
+
+// Button Bindings
+DOM.playPauseBtn?.addEventListener('click', (e) => {
   e.stopPropagation();
   togglePlayPause();
 });
 
-DOM.nextBtn.addEventListener('click', (e) => {
+DOM.nextBtn?.addEventListener('click', (e) => {
   e.stopPropagation();
   playNextTrack();
+});
+
+DOM.prevBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  playPrevTrack();
+});
+
+DOM.rewindBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  seekDelta(-10);
+});
+
+DOM.forwardBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  seekDelta(10);
+});
+
+DOM.muteBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  toggleMute();
+});
+
+DOM.volumeSlider?.addEventListener('input', (e) => {
+  setVolume(e.target.value);
 });
 
 // Bind Decade Selector Pills
@@ -426,7 +723,73 @@ if (DOM.decadeSelector) {
   });
 }
 
-// Click anywhere fallback to satisfy browser user interaction policy for audio autoplay
+// Share Track Action
+DOM.shareBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const track = currentTrackQueue[currentTrackIndex];
+  const shareText = `Listening to "${track?.title} - ${track?.artist}" on ROCK RADIO: ${window.location.href}`;
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(shareText).then(() => {
+      showToast('Track link copied to clipboard!');
+    }).catch(() => {
+      showToast('Copied to clipboard!');
+    });
+  } else {
+    showToast('Copied to clipboard!');
+  }
+});
+
+// Shortcuts Modal Handlers
+DOM.shortcutsBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  DOM.shortcutsModal?.classList.remove('hidden');
+});
+
+DOM.modalCloseBtn?.addEventListener('click', () => {
+  DOM.shortcutsModal?.classList.add('hidden');
+});
+
+DOM.shortcutsModal?.addEventListener('click', (e) => {
+  if (e.target === DOM.shortcutsModal) {
+    DOM.shortcutsModal.classList.add('hidden');
+  }
+});
+
+// Keyboard Navigation Support
+window.addEventListener('keydown', (e) => {
+  // Ignore if user is typing in an input
+  if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+  switch (e.code) {
+    case 'Space':
+      e.preventDefault();
+      togglePlayPause();
+      break;
+    case 'ArrowRight':
+      e.preventDefault();
+      seekDelta(10);
+      break;
+    case 'ArrowLeft':
+      e.preventDefault();
+      seekDelta(-10);
+      break;
+    case 'KeyN':
+      playNextTrack();
+      break;
+    case 'KeyP':
+      playPrevTrack();
+      break;
+    case 'KeyM':
+      toggleMute();
+      break;
+    case 'Escape':
+      DOM.shortcutsModal?.classList.add('hidden');
+      break;
+  }
+});
+
+// Global Click Autoplay Fallback
 document.addEventListener('click', () => {
   if (!userHasInteracted && isPlayerReady) {
     userHasInteracted = true;
@@ -439,18 +802,16 @@ document.addEventListener('click', () => {
   }
 });
 
-if (DOM.autoplayOverlay) {
-  DOM.autoplayOverlay.addEventListener('click', () => {
-    userHasInteracted = true;
-    hideAutoplayPrompt();
-    if (player && isPlayerReady) {
-      player.playVideo();
-    }
-  });
-}
+DOM.autoplayOverlay?.addEventListener('click', () => {
+  userHasInteracted = true;
+  hideAutoplayPrompt();
+  if (player && isPlayerReady) {
+    player.playVideo();
+  }
+});
 
 // ==========================================================================
-// 4. SUPABASE REALTIME PRESENCE
+// 5. SUPABASE REALTIME PRESENCE
 // ==========================================================================
 
 function initSupabaseRealtime() {
@@ -460,7 +821,6 @@ function initSupabaseRealtime() {
     SUPABASE_ANON_KEY.includes('YOUR_SUPABASE');
 
   if (isPlaceholder || typeof window.supabase === 'undefined') {
-    console.info('Supabase credentials placeholder. Running in local fallback mode.');
     setupFallbackListenerCounter();
     return;
   }
@@ -486,7 +846,6 @@ function initSupabaseRealtime() {
       }
     });
   } catch (err) {
-    console.warn('Supabase Realtime fallback active:', err);
     setupFallbackListenerCounter();
   }
 }
@@ -498,7 +857,7 @@ function updateListenerCountDisplay(count) {
 }
 
 function setupFallbackListenerCounter() {
-  let count = Math.floor(Math.random() * 6) + 12;
+  let count = Math.floor(Math.random() * 6) + 14;
   updateListenerCountDisplay(count);
 
   setInterval(() => {
@@ -507,8 +866,3 @@ function setupFallbackListenerCounter() {
     updateListenerCountDisplay(count);
   }, 12000);
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  initSupabaseRealtime();
-});
-
