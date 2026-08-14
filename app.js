@@ -145,8 +145,26 @@ document.addEventListener('DOMContentLoaded', () => {
 function initYouTubePlayer() {
   if (player) return;
 
+  const playerVars = {
+    autoplay: 1,
+    controls: 0,
+    disablekb: 1,
+    fs: 0,
+    rel: 0,
+    modestbranding: 1,
+    enablejsapi: 1,
+    playsinline: 1
+  };
+
+  if (window.location.protocol.startsWith('http')) {
+    playerVars.origin = window.location.origin;
+  }
+
   try {
     player = new YT.Player('youtube-player', {
+      height: '200',
+      width: '200',
+      playerVars: playerVars,
       events: {
         onReady: onPlayerReady,
         onStateChange: onPlayerStateChange,
@@ -239,7 +257,7 @@ function onPlayerStateChange(event) {
       hideAutoplayPrompt();
       updatePlayPauseUI(true);
       fetchTrackDetails();
-      updateStatus('NOW STREAMING', true);
+      updateStatus(`NOW STREAMING // ${currentDecade} ROCK`, true);
       break;
 
     case YT.PlayerState.PAUSED:
@@ -281,29 +299,9 @@ function onPlayerError(event) {
 }
 
 function fetchTrackDetails() {
-  if (!player || typeof player.getVideoData !== 'function') return;
-
-  const data = player.getVideoData();
-  if (data && data.title && data.title.trim() !== '') {
-    let title = data.title
-      .replace(/\s*\([^)]*official[^)]*\)/gi, '')
-      .replace(/\s*\[[^\]]*official[^\]]*\]/gi, '')
-      .replace(/\s*\([^)]*hd[^)]*\)/gi, '')
-      .replace(/\s*\[[^\]]*hd[^\]]*\]/gi, '')
-      .replace(/\s*\([^)]*lyric[^)]*\)/gi, '')
-      .replace(/\s*\[[^\]]*remastered[^)]*\)/gi, '')
-      .trim();
-
-    let artist = 'ROCK ARCHIVE';
-    if (title.includes(' - ')) {
-      const parts = title.split(' - ');
-      artist = parts[0].trim();
-      title = parts.slice(1).join(' - ').trim();
-    } else if (data.author) {
-      artist = data.author.replace(/VEVO$/i, '').trim();
-    }
-
-    updateTrackDisplay(title, artist);
+  const track = currentTrackQueue[currentTrackIndex];
+  if (track) {
+    updateTrackDisplay(track.title, track.artist);
   }
 }
 
