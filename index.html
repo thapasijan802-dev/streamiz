@@ -37,33 +37,40 @@
       <div class="header-tag">STEREO BROADCAST</div>
     </header>
 
-    <!-- Center Stage Audio Information & Visualizer -->
-    <section class="center-stage">
+    <!-- Center Stage Audio Information & Turntable Player -->
+    <section class="center-stage player-stage">
       
-      <!-- Audio Equalizer / Visualizer Canvas -->
-      <div class="visualizer-wrapper">
-        <div class="equalizer-container" id="equalizer" aria-hidden="true">
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
-          <div class="eq-bar"></div>
+      <!-- Realistic Turntable Deck & Rotating Vinyl -->
+      <div class="turntable-deck" id="turntable-deck">
+        <div class="deck-chassis">
+          <div class="turntable-platter">
+            <div class="vinyl-record" id="vinyl-record">
+              <div class="vinyl-shine"></div>
+              <div class="vinyl-grooves"></div>
+              <div class="vinyl-label">
+                <div class="vinyl-label-art" id="vinyl-label-art">
+                  <span class="vinyl-brand">ROCK</span>
+                  <span class="vinyl-rpm">33 RPM</span>
+                </div>
+                <div class="vinyl-spindle"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Realistic Tonearm Pivot & Stylus Head -->
+          <div class="tonearm-assembly" id="tonearm">
+            <div class="tonearm-base"></div>
+            <div class="tonearm-pivot"></div>
+            <div class="tonearm-arm"></div>
+            <div class="tonearm-cartridge"></div>
+          </div>
+          <!-- Turntable Details -->
+          <div class="deck-dial-strobe"></div>
+          <div class="deck-speed-switch"></div>
         </div>
       </div>
 
       <!-- Track Information -->
       <div class="track-info">
-        <div class="audio-badge" id="audio-badge">
-          <span class="badge-dot"></span>
-          <span id="engine-badge-text">HI-FI AUDIO • DUAL ENGINE</span>
-        </div>
         <h1 class="track-title" id="track-title">Tuning in...</h1>
         <p class="track-artist" id="track-artist">Connecting to Rock Frequency</p>
       </div>
@@ -78,87 +85,86 @@
         <button class="decade-pill" data-decade="00s">00s MODERN</button>
       </div>
 
-      <!-- Interactive Progress Scrubber / Seekbar Line -->
-      <div class="playback-timeline" id="playback-timeline">
-        <span class="time-label" id="current-time">0:00</span>
-        <div class="progress-bar-container" id="progress-bar-container" role="slider" aria-label="Playback Scrubber" tabindex="0">
-          <div class="progress-bar-track">
-            <div class="progress-bar-buffer" id="progress-bar-buffer"></div>
-            <div class="progress-bar-fill" id="progress-bar-fill"></div>
-            <div class="progress-thumb" id="progress-thumb"></div>
+      <!-- Waveform Visualizer & Timestamp Section -->
+      <div class="waveform-section">
+        <!-- Audio Equalizer / Visualizer Canvas -->
+        <div class="visualizer-wrapper">
+          <div class="equalizer-container" id="equalizer" aria-hidden="true">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
           </div>
         </div>
-        <span class="time-label" id="duration-time">0:00</span>
+
+        <!-- Interactive Progress Scrubber / Seekbar Line -->
+        <div class="playback-timeline" id="playback-timeline">
+          <span class="time-label" id="current-time">0:00</span>
+          <div class="progress-bar-container" id="progress-bar-container" role="slider" aria-label="Playback Scrubber" tabindex="0">
+            <div class="progress-bar-track">
+              <div class="progress-bar-buffer" id="progress-bar-buffer"></div>
+              <div class="progress-bar-fill" id="progress-bar-fill"></div>
+              <div class="progress-thumb" id="progress-thumb"></div>
+            </div>
+          </div>
+          <span class="time-label" id="duration-time">0:00</span>
+        </div>
       </div>
 
-      <!-- Playback Controls -->
-      <div class="controls-group">
+      <!-- Elevated Neumorphic / Glassmorphic Bottom Controls Dock -->
+      <div class="controls-dock">
         <!-- Previous Track Button -->
-        <button class="btn glass-btn icon-only-btn" id="prev-btn" aria-label="Previous Track" title="Previous Track (P)">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <button class="dock-btn side-btn" id="prev-btn" aria-label="Previous Track" title="Previous Track (P)">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
             <polygon points="19 20 9 12 19 4 19 20"></polygon>
-            <line x1="5" y1="4" x2="5" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="5" y1="4" x2="5" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
           </svg>
         </button>
 
-        <!-- Seek -10s Button -->
-        <button class="btn glass-btn icon-only-btn" id="rewind-btn" aria-label="Rewind 10 seconds" title="Rewind 10s (Left Arrow)">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/>
+        <!-- Hero Play/Pause Button -->
+        <button class="dock-btn hero-play-btn" id="play-pause-btn" aria-label="Play or Pause" title="Play / Pause (Space)">
+          <svg class="btn-icon play-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <polygon points="6 4 20 12 6 20 6 4"></polygon>
           </svg>
-          <span class="sub-label">10s</span>
-        </button>
-
-        <!-- Play/Pause Toggle Button -->
-        <button class="btn glass-btn main-play-btn" id="play-pause-btn" aria-label="Play or Pause" title="Play / Pause (Space)">
-          <svg class="btn-icon play-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          <svg class="btn-icon pause-icon hidden" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16" rx="1.5"></rect>
+            <rect x="14" y="4" width="4" height="16" rx="1.5"></rect>
           </svg>
-          <svg class="btn-icon pause-icon hidden" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <rect x="6" y="4" width="4" height="16"></rect>
-            <rect x="14" y="4" width="4" height="16"></rect>
-          </svg>
-          <span class="btn-text" id="play-btn-text">PLAY</span>
-        </button>
-
-        <!-- Seek +10s Button -->
-        <button class="btn glass-btn icon-only-btn" id="forward-btn" aria-label="Forward 10 seconds" title="Forward 10s (Right Arrow)">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M13 17l5-5-5-5M6 17l5-5-5-5"/>
-          </svg>
-          <span class="sub-label">10s</span>
         </button>
 
         <!-- Next Track Button -->
-        <button class="btn glass-btn icon-only-btn" id="next-btn" aria-label="Next Track" title="Next Track (N)">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <button class="dock-btn side-btn" id="next-btn" aria-label="Next Track" title="Next Track (N)">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
             <polygon points="5 4 15 12 5 20 5 4"></polygon>
-            <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
           </svg>
         </button>
+      </div>
 
-        <!-- Volume Control Wrapper -->
+      <!-- Quick Utility Bar: Share, Shortcuts, Volume -->
+      <div class="utility-toolbar">
         <div class="volume-control-wrapper">
-          <button class="btn glass-btn icon-only-btn" id="mute-btn" aria-label="Mute / Unmute" title="Mute Toggle (M)">
-            <svg class="volume-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <button class="utility-btn" id="mute-btn" title="Volume / Mute">
+            <svg class="volume-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <path class="vol-wave" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-              <path class="vol-wave-outer" d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
             </svg>
-            <svg class="mute-icon hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="mute-icon hidden" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
               <line x1="23" y1="9" x2="17" y2="15"></line>
               <line x1="17" y1="9" x2="23" y2="15"></line>
             </svg>
+            <span>VOLUME</span>
           </button>
           <div class="volume-slider-box">
             <input type="range" min="0" max="100" value="100" class="volume-slider" id="volume-slider" aria-label="Volume Slider">
           </div>
         </div>
-      </div>
 
-      <!-- Quick Utility Bar: Share, Shortcuts, Theme -->
-      <div class="utility-toolbar">
         <button class="utility-btn" id="share-btn" title="Copy Current Track Link">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="18" cy="5" r="3"></circle>
@@ -167,21 +173,16 @@
             <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
             <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
           </svg>
-          <span>SHARE TRACK</span>
+          <span>SHARE</span>
         </button>
 
         <button class="utility-btn" id="shortcuts-btn" title="Keyboard Shortcuts">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="2" y="4" width="20" height="16" rx="2"></rect>
             <line x1="6" y1="8" x2="6.01" y2="8"></line>
-            <line x1="10" y1="8" x2="10.01" y2="8"></line>
-            <line x1="14" y1="8" x2="14.01" y2="8"></line>
             <line x1="18" y1="8" x2="18.01" y2="8"></line>
-            <line x1="6" y1="12" x2="6.01" y2="12"></line>
-            <line x1="18" y1="12" x2="18.01" y2="12"></line>
-            <line x1="8" y1="16" x2="16" y2="16"></line>
           </svg>
-          <span>SHORTCUTS</span>
+          <span>KEYS</span>
         </button>
       </div>
 

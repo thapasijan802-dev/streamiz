@@ -354,16 +354,21 @@ function updateTrackDisplay(title, artist) {
 
 function updatePlayPauseUI(playing) {
   isPlaying = playing;
+  const vinyl = document.getElementById('vinyl-record');
+  const tonearm = document.getElementById('tonearm');
+
   if (playing) {
-    DOM.playIcon.classList.add('hidden');
-    DOM.pauseIcon.classList.remove('hidden');
-    DOM.playBtnText.textContent = 'PAUSE';
-    DOM.equalizer.classList.add('is-playing');
+    DOM.playIcon?.classList.add('hidden');
+    DOM.pauseIcon?.classList.remove('hidden');
+    DOM.equalizer?.classList.add('is-playing');
+    vinyl?.classList.add('is-spinning');
+    tonearm?.classList.add('is-active');
   } else {
-    DOM.playIcon.classList.remove('hidden');
-    DOM.pauseIcon.classList.add('hidden');
-    DOM.playBtnText.textContent = 'PLAY';
-    DOM.equalizer.classList.remove('is-playing');
+    DOM.playIcon?.classList.remove('hidden');
+    DOM.pauseIcon?.classList.add('hidden');
+    DOM.equalizer?.classList.remove('is-playing');
+    vinyl?.classList.remove('is-spinning');
+    tonearm?.classList.remove('is-active');
   }
 }
 
