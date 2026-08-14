@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RADIO ROCK // Continuous Rock & Metal Broadcast</title>
+  <meta name="description" content="A continuous, minimalist shared rock & metal internet radio station.">
+  
+  <!-- Preload background image to prevent white flash -->
+  <link rel="preload" as="image" href="assets/background.jpg">
+
+  <!-- Typography: Space Grotesk & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Supabase JS Client v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Dark vignette & background layers -->
+  <div class="bg-layer" style="background-image: url('assets/background.jpg');"></div>
+  <div class="backdrop-blur-overlay"></div>
+  <div class="vignette-overlay"></div>
+
+  <!-- Main Container (100dvh & 100dvw) -->
+  <main class="app-container" id="app-root">
+    
+    <!-- Top Header Navigation -->
+    <header class="top-bar">
+      <div class="brand">
+        <span class="live-pulse"></span>
+        <span class="brand-text">ROCK RADIO // 24/7</span>
+      </div>
+      <div class="header-tag">STEREO BROADCAST</div>
+    </header>
+
+    <!-- Center Stage Audio Information & Visualizer -->
+    <section class="center-stage">
+      
+      <!-- Audio Equalizer Visualizer -->
+      <div class="equalizer-container" id="equalizer" aria-hidden="true">
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+      </div>
+
+      <!-- Track Information -->
+      <div class="track-info">
+        <h1 class="track-title" id="track-title">Tuning in...</h1>
+        <p class="track-artist" id="track-artist">Connecting to Rock Frequency</p>
+      </div>
+
+      <!-- Playback Controls -->
+      <div class="controls-group">
+        <button class="btn glass-btn" id="play-pause-btn" aria-label="Play or Pause">
+          <svg class="btn-icon play-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <svg class="btn-icon pause-icon hidden" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16"></rect>
+            <rect x="14" y="4" width="4" height="16"></rect>
+          </svg>
+          <span class="btn-text" id="play-btn-text">PLAY</span>
+        </button>
+
+        <button class="btn glass-btn" id="next-btn" aria-label="Next Track">
+          <svg class="btn-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <polygon points="5 4 15 12 5 20 5 4"></polygon>
+            <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+          </svg>
+          <span class="btn-text">NEXT TRACK</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- Bottom Status & Supabase Realtime Listener Counter -->
+    <footer class="bottom-bar">
+      <div class="audio-status" id="audio-status">
+        <span class="status-dot"></span>
+        <span id="status-text">INITIALIZING ENGINE</span>
+      </div>
+
+      <div class="listener-counter" id="listener-counter">
+        <span class="counter-icon">●</span>
+        <span id="listener-count-text">1 listener tuning in</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Autoplay Prompt overlay (shown briefly if autoplay is blocked) -->
+  <div class="autoplay-overlay hidden" id="autoplay-overlay">
+    <div class="autoplay-content">
+      <div class="autoplay-icon">⚡</div>
+      <p>TAP ANYWHERE TO UNMUTE ROCK RADIO</p>
+    </div>
+  </div>
+
+  <!-- Visually Hidden Audio Engine Container -->
+  <div class="hidden-audio-engine">
+    <iframe id="youtube-player"
+            src="https://www.youtube-nocookie.com/embed/videoseries?list=PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj&enablejsapi=1&autoplay=1&controls=0"
+            allow="autoplay; encrypted-media"
+            width="200" height="200"
+            style="border:none;"></iframe>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
