@@ -88,16 +88,16 @@ html, body {
   z-index: 3;
 }
 
-/* 3. Visually Hidden Audio Engine Container (Bypasses YouTube Error 150 restrictions) */
+/* 3. Visually Hidden Audio Engine Container (Smartphone & Desktop Full Compatibility) */
 .hidden-audio-engine {
   position: fixed;
-  bottom: -250px;
-  right: -250px;
+  top: 0;
+  left: 0;
   width: 200px;
   height: 200px;
   opacity: 0.001;
   pointer-events: none;
-  z-index: -9999;
+  z-index: -1;
   overflow: hidden;
 }
 
@@ -332,6 +332,7 @@ html, body {
   cursor: pointer;
   position: relative;
   outline: none;
+  touch-action: none;
 }
 
 .progress-bar-track {
