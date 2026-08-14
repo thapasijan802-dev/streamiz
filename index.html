@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
   <title>RADIO ROCK // Continuous Rock & Metal Broadcast</title>
   <meta name="description" content="A continuous, minimalist shared rock & metal internet radio station.">
   
@@ -11,7 +11,7 @@
   <!-- Typography: Space Grotesk & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <!-- Supabase JS Client v2 CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -19,79 +19,48 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Dark vignette & background layers -->
-  <div class="bg-layer" style="background-image: url('assets/background.jpg');"></div>
-  <div class="backdrop-blur-overlay"></div>
-  <div class="vignette-overlay"></div>
+  <!-- Ambient background lighting -->
+  <div class="bg-ambient-layer" style="background-image: url('assets/background.jpg');"></div>
+  <div class="bg-dark-overlay"></div>
 
-  <!-- Main Container -->
-  <main class="app-container" id="app-root">
+  <!-- Mobile Player Frame Wrapper -->
+  <main class="player-app-frame" id="app-root">
     
-    <!-- Top Header Navigation -->
-    <header class="top-bar">
-      <div class="brand">
-        <span class="live-pulse"></span>
-        <span class="brand-text">ROCK RADIO</span>
+    <!-- 1. Top Bar: [ < ] [ NOW PLAYING / FREQUENCY ] [ ☷ ] -->
+    <header class="now-playing-header">
+      <button class="nav-icon-btn" id="drawer-toggle-btn-left" aria-label="Frequency Menu" title="Choose Frequency">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="header-title-block" id="header-decade-trigger">
+        <span class="header-eyebrow">NOW PLAYING</span>
+        <span class="header-decade-title" id="active-decade-label">ALL ROCK ▾</span>
       </div>
 
-      <!-- Decade Dropdown Selector (Clean & Uncluttered) -->
-      <div class="decade-dropdown-wrapper" id="decade-dropdown-wrapper">
-        <button class="decade-dropdown-trigger" id="decade-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
-          <span class="dropdown-label">PLAYING:</span>
-          <span class="active-decade-text" id="active-decade-name">ALL ROCK</span>
-          <svg class="chevron-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </button>
-
-        <div class="decade-dropdown-menu hidden" id="decade-dropdown-menu" role="menu">
-          <button class="dropdown-item active" data-decade="ALL" role="menuitem">
-            <span class="item-dot"></span>
-            <span>ALL ROCK</span>
-          </button>
-          <button class="dropdown-item" data-decade="60s" role="menuitem">
-            <span class="item-dot"></span>
-            <span>60s ROCK</span>
-          </button>
-          <button class="dropdown-item" data-decade="70s" role="menuitem">
-            <span class="item-dot"></span>
-            <span>70s HARD ROCK</span>
-          </button>
-          <button class="dropdown-item" data-decade="80s" role="menuitem">
-            <span class="item-dot"></span>
-            <span>80s METAL</span>
-          </button>
-          <button class="dropdown-item" data-decade="90s" role="menuitem">
-            <span class="item-dot"></span>
-            <span>90s GRUNGE</span>
-          </button>
-          <button class="dropdown-item" data-decade="00s" role="menuitem">
-            <span class="item-dot"></span>
-            <span>00s MODERN</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="header-tag">STEREO BROADCAST</div>
+      <button class="nav-icon-btn" id="drawer-toggle-btn" aria-label="Open Decade Drawer" title="Open Decades Library">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </button>
     </header>
 
-    <!-- Center Stage Floating Player Card (Spacious, Breathable & Modern) -->
-    <section class="center-stage player-stage">
+    <!-- 2. Main Player Viewport (No Suffocation, Generous Margins) -->
+    <section class="player-main-stage">
       
-      <!-- Minimalist Music Player Card -->
-      <div class="player-card">
-        
-        <!-- Rotating Vinyl / Album Artwork Plate -->
-        <div class="artwork-container">
-          <div class="vinyl-disc" id="vinyl-disc">
-            <div class="vinyl-shine"></div>
-            <div class="vinyl-groove-rings"></div>
-            <div class="vinyl-center-badge">
-              <span class="badge-title">ROCK</span>
-              <span class="badge-sub">33 RPM</span>
+      <!-- Center Artwork / Album Display Card -->
+      <div class="album-art-card" id="album-art-card">
+        <div class="art-inner-frame">
+          <div class="art-graphic-rock">
+            <span class="art-logo-text">ROCK</span>
+            <div class="art-soundwave-graphic">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
             </div>
           </div>
-          <!-- Audio Visualizer Waves Overlay -->
+          <!-- Live Visualizer Overlay -->
           <div class="equalizer-container" id="equalizer" aria-hidden="true">
             <div class="eq-bar"></div>
             <div class="eq-bar"></div>
@@ -102,109 +71,215 @@
             <div class="eq-bar"></div>
           </div>
         </div>
+      </div>
 
-        <!-- Track Title & Artist -->
-        <div class="track-info">
-          <h1 class="track-title" id="track-title">Tuning in...</h1>
-          <p class="track-artist" id="track-artist">Connecting to Rock Frequency</p>
+      <!-- 3. Track Info Row with Interactive Heart Button -->
+      <div class="track-header-row">
+        <div class="track-meta">
+          <h1 class="track-name" id="track-title">Tuning in...</h1>
+          <p class="artist-name" id="track-artist">Connecting to Rock Frequency</p>
         </div>
 
-        <!-- Interactive Progress Timeline Scrubber -->
-        <div class="playback-timeline" id="playback-timeline">
+        <button class="heart-btn" id="like-btn" aria-label="Favorite Track" title="Like Track">
+          <svg class="heart-icon outline" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <svg class="heart-icon filled hidden" viewBox="0 0 24 24" width="24" height="24" fill="#22c55e">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- 4. Interactive Progress Scrubber with Elapsed & Remaining Time -->
+      <div class="timeline-group">
+        <div class="progress-bar-container" id="progress-bar-container" role="slider" aria-label="Playback Scrubber" tabindex="0">
+          <div class="progress-bar-track">
+            <div class="progress-bar-buffer" id="progress-bar-buffer"></div>
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+            <div class="progress-thumb" id="progress-thumb"></div>
+          </div>
+        </div>
+        
+        <div class="timeline-labels">
           <span class="time-label" id="current-time">0:00</span>
-          <div class="progress-bar-container" id="progress-bar-container" role="slider" aria-label="Playback Scrubber" tabindex="0">
-            <div class="progress-bar-track">
-              <div class="progress-bar-buffer" id="progress-bar-buffer"></div>
-              <div class="progress-bar-fill" id="progress-bar-fill"></div>
-              <div class="progress-thumb" id="progress-thumb"></div>
-            </div>
-          </div>
-          <span class="time-label" id="duration-time">0:00</span>
+          <span class="time-label" id="duration-time">-0:00</span>
+        </div>
+      </div>
+
+      <!-- 5. Main Controls Row: [ 🔀 ] [ ◀ ] [ ●▶ ] [ ▶ ] [ 🔁 ] -->
+      <div class="controls-row">
+        <!-- Shuffle / Randomizer -->
+        <button class="ctrl-btn secondary-btn" id="shuffle-btn" aria-label="Shuffle Decades" title="Shuffle Station">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 3 21 3 21 8"></polyline>
+            <line x1="4" y1="20" x2="21" y2="3"></line>
+            <polyline points="21 16 21 21 16 21"></polyline>
+            <line x1="15" y1="15" x2="21" y2="21"></line>
+            <line x1="4" y1="4" x2="9" y2="9"></line>
+          </svg>
+        </button>
+
+        <!-- Previous Track Button -->
+        <button class="ctrl-btn nav-btn" id="prev-btn" aria-label="Previous Track" title="Previous Track (P)">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+            <polygon points="19 20 9 12 19 4 19 20"></polygon>
+            <line x1="5" y1="4" x2="5" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
+          </svg>
+        </button>
+
+        <!-- Hero Play/Pause Button -->
+        <button class="hero-play-btn" id="play-pause-btn" aria-label="Play or Pause" title="Play / Pause (Space)">
+          <svg class="btn-icon play-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+            <polygon points="6 4 20 12 6 20 6 4"></polygon>
+          </svg>
+          <svg class="btn-icon pause-icon hidden" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16" rx="1.5"></rect>
+            <rect x="14" y="4" width="4" height="16" rx="1.5"></rect>
+          </svg>
+        </button>
+
+        <!-- Next Track Button -->
+        <button class="ctrl-btn nav-btn" id="next-btn" aria-label="Next Track" title="Next Track (N)">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+            <polygon points="5 4 15 12 5 20 5 4"></polygon>
+            <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
+          </svg>
+        </button>
+
+        <!-- Loop / Continuous Radio Toggle -->
+        <button class="ctrl-btn secondary-btn active" id="repeat-btn" aria-label="Continuous Radio" title="Continuous Radio">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"></polyline>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+            <polyline points="7 23 3 19 7 15"></polyline>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- 6. Horizontal Volume Bar: [ 🔈 ] ━━━━━●━━━━ [ 🔊 ] -->
+      <div class="volume-slider-row">
+        <button class="volume-mute-btn" id="mute-btn" aria-label="Mute / Unmute" title="Mute / Unmute">
+          <svg class="vol-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          </svg>
+        </button>
+
+        <div class="vol-track-wrapper">
+          <input type="range" min="0" max="100" value="100" class="horizontal-volume-slider" id="volume-slider" aria-label="Volume">
         </div>
 
-        <!-- Sleek Controls Row -->
-        <div class="controls-row">
-          <!-- Volume / Mute Button -->
-          <div class="volume-control-wrapper">
-            <button class="icon-btn" id="mute-btn" aria-label="Volume / Mute" title="Volume / Mute">
-              <svg class="volume-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-              </svg>
-              <svg class="mute-icon hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <line x1="23" y1="9" x2="17" y2="15"></line>
-                <line x1="17" y1="9" x2="23" y2="15"></line>
-              </svg>
-            </button>
-            <div class="volume-slider-box">
-              <input type="range" min="0" max="100" value="100" class="volume-slider" id="volume-slider" aria-label="Volume Slider">
-            </div>
-          </div>
-
-          <!-- Previous Track Button -->
-          <button class="icon-btn nav-btn" id="prev-btn" aria-label="Previous Track" title="Previous Track (P)">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-              <polygon points="19 20 9 12 19 4 19 20"></polygon>
-              <line x1="5" y1="4" x2="5" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
-            </svg>
-          </button>
-
-          <!-- Hero Center Play/Pause Button -->
-          <button class="hero-play-btn" id="play-pause-btn" aria-label="Play or Pause" title="Play / Pause (Space)">
-            <svg class="btn-icon play-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-              <polygon points="6 4 20 12 6 20 6 4"></polygon>
-            </svg>
-            <svg class="btn-icon pause-icon hidden" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-              <rect x="6" y="4" width="4" height="16" rx="1.5"></rect>
-              <rect x="14" y="4" width="4" height="16" rx="1.5"></rect>
-            </svg>
-          </button>
-
-          <!-- Next Track Button -->
-          <button class="icon-btn nav-btn" id="next-btn" aria-label="Next Track" title="Next Track (N)">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-              <polygon points="5 4 15 12 5 20 5 4"></polygon>
-              <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></line>
-            </svg>
-          </button>
-
-          <!-- Share Button -->
-          <button class="icon-btn" id="share-btn" aria-label="Share Track" title="Share Track">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="18" cy="5" r="3"></circle>
-              <circle cx="6" cy="12" r="3"></circle>
-              <circle cx="18" cy="19" r="3"></circle>
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-          </button>
-        </div>
-
+        <button class="volume-max-btn" id="vol-max-btn" aria-label="Full Volume" title="Full Volume">
+          <svg class="vol-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+        </button>
       </div>
 
     </section>
 
-    <!-- Bottom Status & Supabase Realtime Listener Counter -->
-    <footer class="bottom-bar">
-      <div class="audio-status" id="audio-status">
-        <span class="status-dot"></span>
-        <span id="status-text">INITIALIZING AUDIO ENGINE</span>
-      </div>
+    <!-- 7. Bottom Navigation Tab Bar: [ Home | Library | Search | Live ] -->
+    <footer class="bottom-tab-bar">
+      <button class="tab-item active" id="tab-home" aria-label="Home Player">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+        </svg>
+        <span>Player</span>
+      </button>
 
-      <div class="listener-counter" id="listener-counter">
-        <span class="counter-icon">●</span>
-        <span id="listener-count-text">1 listener tuning in</span>
-      </div>
+      <button class="tab-item" id="tab-library" aria-label="Decades Library">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span>Decades</span>
+      </button>
+
+      <button class="tab-item" id="tab-share" aria-label="Share Track">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+        <span>Share</span>
+      </button>
+
+      <button class="tab-item" id="tab-live" aria-label="Live Radio Status">
+        <span class="live-dot-badge"></span>
+        <span id="tab-listener-count">1 Live</span>
+      </button>
     </footer>
 
   </main>
 
-  <!-- Autoplay Prompt overlay -->
-  <div class="autoplay-overlay hidden" id="autoplay-overlay">
-    <div class="autoplay-content">
-      <div class="autoplay-icon">⚡</div>
-      <p>TAP ANYWHERE TO UNMUTE ROCK RADIO</p>
+  <!-- Slide-up Decades & Library Drawer Modal (Matching Screenshot 4) -->
+  <div class="library-drawer-backdrop hidden" id="library-drawer-backdrop">
+    <div class="library-drawer" id="library-drawer">
+      <div class="drawer-handle"></div>
+      <div class="drawer-header">
+        <h2>Choose Rock Decade</h2>
+        <button class="drawer-close-btn" id="drawer-close-btn">✕</button>
+      </div>
+
+      <div class="decade-list">
+        <button class="decade-card-item active" data-decade="ALL">
+          <div class="card-art all-rock-art">⚡</div>
+          <div class="card-meta">
+            <h3>ALL ROCK RADIO</h3>
+            <p>Non-stop rock & metal across all eras</p>
+          </div>
+          <span class="card-radio-indicator">●</span>
+        </button>
+
+        <button class="decade-card-item" data-decade="60s">
+          <div class="card-art era-60s">60s</div>
+          <div class="card-meta">
+            <h3>60s CLASSIC ROCK</h3>
+            <p>Hendrix, The Beatles, The Doors, The Who</p>
+          </div>
+          <span class="card-radio-indicator">●</span>
+        </button>
+
+        <button class="decade-card-item" data-decade="70s">
+          <div class="card-art era-70s">70s</div>
+          <div class="card-meta">
+            <h3>70s HARD ROCK</h3>
+            <p>Led Zeppelin, Queen, AC/DC, Black Sabbath</p>
+          </div>
+          <span class="card-radio-indicator">●</span>
+        </button>
+
+        <button class="decade-card-item" data-decade="80s">
+          <div class="card-art era-80s">80s</div>
+          <div class="card-meta">
+            <h3>80s HEAVY METAL</h3>
+            <p>Metallica, Guns N' Roses, Iron Maiden, Judas Priest</p>
+          </div>
+          <span class="card-radio-indicator">●</span>
+        </button>
+
+        <button class="decade-card-item" data-decade="90s">
+          <div class="card-art era-90s">90s</div>
+          <div class="card-meta">
+            <h3>90s GRUNGE & ALT</h3>
+            <p>Nirvana, Soundgarden, Alice In Chains, Pearl Jam</p>
+          </div>
+          <span class="card-radio-indicator">●</span>
+        </button>
+
+        <button class="decade-card-item" data-decade="00s">
+          <div class="card-art era-00s">00s</div>
+          <div class="card-meta">
+            <h3>00s MODERN ROCK</h3>
+            <p>Linkin Park, Arctic Monkeys, The Strokes, Muse</p>
+          </div>
+          <span class="card-radio-indicator">●</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -212,6 +287,14 @@
   <div class="toast-notification hidden" id="toast-notification">
     <span class="toast-icon">✓</span>
     <span id="toast-message">Track copied to clipboard</span>
+  </div>
+
+  <!-- Autoplay Prompt Overlay -->
+  <div class="autoplay-overlay hidden" id="autoplay-overlay">
+    <div class="autoplay-content">
+      <div class="autoplay-icon">⚡</div>
+      <p>TAP ANYWHERE TO UNMUTE ROCK RADIO</p>
+    </div>
   </div>
 
   <!-- Visually Hidden Audio Engine Container -->

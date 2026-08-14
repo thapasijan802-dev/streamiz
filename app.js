@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ROCK RADIO // PLAYLIST AUDIO STREAMING ENGINE & REALTIME PRESENCE
+   ROCK RADIO // SPOTIFY-INSPIRED PLAYBACK ENGINE & REALTIME PRESENCE
    ========================================================================== */
 
 // ==========================================================================
@@ -50,14 +50,22 @@ DECADE_PLAYLISTS['ALL'] = [
   ...DECADE_PLAYLISTS['00s']
 ];
 
-// Fallback initial starter tracks
 const FALLBACK_STARTER_TRACKS = {
-  'ALL': { title: 'Bohemian Rhapsody', artist: 'Queen', id: 'fJ9rUzIMcZQ' },
-  '60s': { title: 'Stairway to Heaven', artist: 'Led Zeppelin', id: 'QkF3oxziUI4' },
+  'ALL': { title: 'Do I Wanna Know?', artist: 'Arctic Monkeys', id: 'bpOSxM0rNPM' },
+  '60s': { title: 'All Along the Watchtower', artist: 'Jimi Hendrix', id: 'TLV4_xx4Urk' },
   '70s': { title: 'Bohemian Rhapsody', artist: 'Queen', id: 'fJ9rUzIMcZQ' },
   '80s': { title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses', id: '1w7OgIMMRc4' },
   '90s': { title: 'Smells Like Teen Spirit', artist: 'Nirvana', id: 'hTWKbfoikeg' },
-  '00s': { title: 'Numb', artist: 'Linkin Park', id: 'kXYiU_JCYtU' }
+  '00s': { title: '505', artist: 'Arctic Monkeys', id: 'qU9mHegkTc4' }
+};
+
+const DECADE_LABELS = {
+  'ALL': 'ALL ROCK',
+  '60s': '60s CLASSIC',
+  '70s': '70s HARD ROCK',
+  '80s': '80s HEAVY METAL',
+  '90s': '90s GRUNGE',
+  '00s': '00s MODERN ROCK'
 };
 
 // Global App State
@@ -71,38 +79,45 @@ let currentPlaylistId = '';
 let isDraggingSeekbar = false;
 let currentVolume = 100;
 let isMuted = false;
+let isLiked = false;
 
 // DOM Elements
 const DOM = {
   trackTitle: document.getElementById('track-title'),
   trackArtist: document.getElementById('track-artist'),
+  albumArtCard: document.getElementById('album-art-card'),
   playPauseBtn: document.getElementById('play-pause-btn'),
   playIcon: document.querySelector('.play-icon'),
   pauseIcon: document.querySelector('.pause-icon'),
   prevBtn: document.getElementById('prev-btn'),
   nextBtn: document.getElementById('next-btn'),
+  shuffleBtn: document.getElementById('shuffle-btn'),
+  repeatBtn: document.getElementById('repeat-btn'),
+  likeBtn: document.getElementById('like-btn'),
   muteBtn: document.getElementById('mute-btn'),
-  volumeIcon: document.querySelector('.volume-icon'),
-  muteIcon: document.querySelector('.mute-icon'),
+  volMaxBtn: document.getElementById('vol-max-btn'),
   volumeSlider: document.getElementById('volume-slider'),
   equalizer: document.getElementById('equalizer'),
-  vinylDisc: document.getElementById('vinyl-disc'),
-  audioStatus: document.getElementById('audio-status'),
-  statusText: document.getElementById('status-text'),
-  listenerCountText: document.getElementById('listener-count-text'),
-  autoplayOverlay: document.getElementById('autoplay-overlay'),
-  decadeDropdownTrigger: document.getElementById('decade-dropdown-trigger'),
-  decadeDropdownMenu: document.getElementById('decade-dropdown-menu'),
-  activeDecadeName: document.getElementById('active-decade-name'),
+  drawerToggleBtn: document.getElementById('drawer-toggle-btn'),
+  drawerToggleBtnLeft: document.getElementById('drawer-toggle-btn-left'),
+  headerDecadeTrigger: document.getElementById('header-decade-trigger'),
+  activeDecadeLabel: document.getElementById('active-decade-label'),
+  libraryDrawerBackdrop: document.getElementById('library-drawer-backdrop'),
+  libraryDrawer: document.getElementById('library-drawer'),
+  drawerCloseBtn: document.getElementById('drawer-close-btn'),
   progressBarContainer: document.getElementById('progress-bar-container'),
   progressBarFill: document.getElementById('progress-bar-fill'),
   progressBarBuffer: document.getElementById('progress-bar-buffer'),
   progressThumb: document.getElementById('progress-thumb'),
   currentTime: document.getElementById('current-time'),
   durationTime: document.getElementById('duration-time'),
-  shareBtn: document.getElementById('share-btn'),
+  tabHome: document.getElementById('tab-home'),
+  tabLibrary: document.getElementById('tab-library'),
+  tabShare: document.getElementById('tab-share'),
+  tabListenerCount: document.getElementById('tab-listener-count'),
   toastNotification: document.getElementById('toast-notification'),
-  toastMessage: document.getElementById('toast-message')
+  toastMessage: document.getElementById('toast-message'),
+  autoplayOverlay: document.getElementById('autoplay-overlay')
 };
 
 const userId = 'user_' + Math.random().toString(36).substring(2, 9);
@@ -131,32 +146,32 @@ function getRandomPlaylist(decadeKey) {
   return list[Math.floor(Math.random() * list.length)];
 }
 
-const DECADE_LABELS = {
-  'ALL': 'ALL ROCK',
-  '60s': '60s ROCK',
-  '70s': '70s HARD ROCK',
-  '80s': '80s METAL',
-  '90s': '90s GRUNGE',
-  '00s': '00s MODERN'
-};
+// Open / Close Decade Drawer
+function openDecadeDrawer() {
+  DOM.libraryDrawerBackdrop?.classList.remove('hidden');
+}
+
+function closeDecadeDrawer() {
+  DOM.libraryDrawerBackdrop?.classList.add('hidden');
+}
 
 // Initialize Decade Selection
 function setDecade(decadeKey) {
   currentDecade = decadeKey;
   currentPlaylistId = getRandomPlaylist(decadeKey);
 
-  // Update Dropdown UI
-  if (DOM.activeDecadeName) {
-    DOM.activeDecadeName.textContent = DECADE_LABELS[decadeKey] || 'ALL ROCK';
+  if (DOM.activeDecadeLabel) {
+    DOM.activeDecadeLabel.textContent = `${DECADE_LABELS[decadeKey] || decadeKey} ▾`;
   }
 
-  if (DOM.decadeDropdownMenu) {
-    const items = DOM.decadeDropdownMenu.querySelectorAll('.dropdown-item');
-    items.forEach(item => {
-      if (item.dataset.decade === decadeKey) {
-        item.classList.add('active');
+  // Update Drawer Card selections
+  if (DOM.libraryDrawer) {
+    const cards = DOM.libraryDrawer.querySelectorAll('.decade-card-item');
+    cards.forEach(card => {
+      if (card.dataset.decade === decadeKey) {
+        card.classList.add('active');
       } else {
-        item.classList.remove('active');
+        card.classList.remove('active');
       }
     });
   }
@@ -192,8 +207,8 @@ function initYouTubePlayer() {
 
   try {
     player = new YT.Player('youtube-player', {
-      height: '200',
-      width: '200',
+      height: '150',
+      width: '150',
       playerVars: playerVars,
       events: {
         onReady: onPlayerReady,
@@ -206,12 +221,10 @@ function initYouTubePlayer() {
   }
 }
 
-// Global callback invoked automatically by YouTube API script
 window.onYouTubeIframeAPIReady = function() {
   initYouTubePlayer();
 };
 
-// Asynchronously load YouTube IFrame API
 (function loadYouTubeAPI() {
   if (window.YT && window.YT.Player) {
     initYouTubePlayer();
@@ -232,8 +245,6 @@ window.onYouTubeIframeAPIReady = function() {
 
 function onPlayerReady(event) {
   isPlayerReady = true;
-  updateStatus('READY // TAP PLAY TO START');
-
   if (pendingPlay || userHasInteracted) {
     loadActiveDecadePlaylist(true);
   }
@@ -257,60 +268,40 @@ function loadActiveDecadePlaylist(autoPlay = true) {
       if (typeof player.setLoop === 'function') player.setLoop(true);
     }
   } catch (e) {
-    console.warn('Load playlist error, playing starter track:', e);
-    const starter = FALLBACK_STARTER_TRACKS[currentDecade] || FALLBACK_STARTER_TRACKS['ALL'];
-    if (typeof player.loadVideoById === 'function') {
-      player.loadVideoById({ videoId: starter.id, startSeconds: 0 });
-    }
+    console.warn('loadPlaylist error:', e);
   }
 }
 
 function onPlayerStateChange(event) {
-  if (!event) return;
-
-  switch (event.data) {
-    case YT.PlayerState.PLAYING:
-      isPlaying = true;
-      hideAutoplayPrompt();
-      updatePlayPauseUI(true);
-      fetchLiveTrackDetails();
-      updateStatus(`NOW STREAMING // ${currentDecade} ROCK`, true);
-      break;
-
-    case YT.PlayerState.PAUSED:
-      isPlaying = false;
-      updatePlayPauseUI(false);
-      updateStatus('STREAM PAUSED', false);
-      break;
-
-    case YT.PlayerState.BUFFERING:
-      updateStatus('BUFFERING AUDIO...', true);
-      break;
-
-    case YT.PlayerState.ENDED:
-      updateStatus('LOADING NEXT TRACK...', true);
-      playNextTrack();
-      break;
-
-    case YT.PlayerState.CUED:
-      if (userHasInteracted && player) {
-        player.playVideo();
-      }
-      break;
+  if (event.data === YT.PlayerState.PLAYING) {
+    updatePlayPauseUI(true);
+    hideAutoplayPrompt();
+    fetchLiveTrackDetails();
+  } else if (event.data === YT.PlayerState.PAUSED) {
+    updatePlayPauseUI(false);
+  } else if (event.data === YT.PlayerState.BUFFERING) {
+    DOM.albumArtCard?.classList.add('is-playing');
+  } else if (event.data === YT.PlayerState.ENDED) {
+    if (player && typeof player.nextVideo === 'function') {
+      player.nextVideo();
+    }
   }
 }
 
-// Automatic Non-Stop Fallback Handling: If a video in playlist is restricted, advance instantly in 200ms
+// Saloon.wtf-style Zero-Skip Fallback
 function onPlayerError(event) {
-  console.warn(`Playlist video skipped (Code ${event.data}). Advancing to next track...`);
+  console.warn('Track unplayable or restricted, skipping instantly:', event.data);
   if (player && typeof player.nextVideo === 'function') {
     setTimeout(() => {
-      player.nextVideo();
+      try {
+        player.nextVideo();
+      } catch (e) {
+        loadActiveDecadePlaylist(true);
+      }
     }, 200);
   }
 }
 
-// Extract and format clean Live Track Name & Artist from YouTube
 function fetchLiveTrackDetails() {
   if (!player || typeof player.getVideoData !== 'function') return;
 
@@ -350,15 +341,17 @@ function fetchLiveTrackDetails() {
 }
 
 function updateTrackDisplay(title, artist) {
-  DOM.trackTitle.style.opacity = '0';
-  DOM.trackArtist.style.opacity = '0';
+  if (DOM.trackTitle) {
+    DOM.trackTitle.style.opacity = '0';
+    if (DOM.trackArtist) DOM.trackArtist.style.opacity = '0';
 
-  setTimeout(() => {
-    DOM.trackTitle.textContent = title;
-    DOM.trackArtist.textContent = artist;
-    DOM.trackTitle.style.opacity = '1';
-    DOM.trackArtist.style.opacity = '1';
-  }, 150);
+    setTimeout(() => {
+      DOM.trackTitle.textContent = title;
+      if (DOM.trackArtist) DOM.trackArtist.textContent = artist;
+      DOM.trackTitle.style.opacity = '1';
+      if (DOM.trackArtist) DOM.trackArtist.style.opacity = '1';
+    }, 150);
+  }
 }
 
 function updatePlayPauseUI(playing) {
@@ -367,21 +360,12 @@ function updatePlayPauseUI(playing) {
     DOM.playIcon?.classList.add('hidden');
     DOM.pauseIcon?.classList.remove('hidden');
     DOM.equalizer?.classList.add('is-playing');
-    DOM.vinylDisc?.classList.add('is-spinning');
+    DOM.albumArtCard?.classList.add('is-playing');
   } else {
     DOM.playIcon?.classList.remove('hidden');
     DOM.pauseIcon?.classList.add('hidden');
     DOM.equalizer?.classList.remove('is-playing');
-    DOM.vinylDisc?.classList.remove('is-spinning');
-  }
-}
-
-function updateStatus(text, isPlaying = false) {
-  DOM.statusText.textContent = text;
-  if (isPlaying) {
-    DOM.audioStatus.classList.add('playing');
-  } else {
-    DOM.audioStatus.classList.remove('playing');
+    DOM.albumArtCard?.classList.remove('is-playing');
   }
 }
 
@@ -405,10 +389,9 @@ function resetProgressBar() {
   if (DOM.progressBarFill) DOM.progressBarFill.style.width = '0%';
   if (DOM.progressThumb) DOM.progressThumb.style.left = '0%';
   if (DOM.currentTime) DOM.currentTime.textContent = '0:00';
-  if (DOM.durationTime) DOM.durationTime.textContent = '0:00';
+  if (DOM.durationTime) DOM.durationTime.textContent = '-0:00';
 }
 
-// Real-time ticker to update progress bar and time labels
 setInterval(() => {
   if (!player || !isPlayerReady || isDraggingSeekbar) return;
 
@@ -421,8 +404,10 @@ setInterval(() => {
         const percentage = Math.min(100, Math.max(0, (current / duration) * 100));
         if (DOM.progressBarFill) DOM.progressBarFill.style.width = `${percentage}%`;
         if (DOM.progressThumb) DOM.progressThumb.style.left = `${percentage}%`;
+        
+        const remaining = Math.max(0, duration - current);
         if (DOM.currentTime) DOM.currentTime.textContent = formatTime(current);
-        if (DOM.durationTime) DOM.durationTime.textContent = formatTime(duration);
+        if (DOM.durationTime) DOM.durationTime.textContent = `-${formatTime(remaining)}`;
 
         if (typeof player.getVideoLoadedFraction === 'function' && DOM.progressBarBuffer) {
           const loadedPct = (player.getVideoLoadedFraction() || 0) * 100;
@@ -435,7 +420,6 @@ setInterval(() => {
   }
 }, 250);
 
-// Seek by percentage
 function seekToPercentage(pct) {
   if (!player || !isPlayerReady || typeof player.getDuration !== 'function') return;
 
@@ -443,24 +427,14 @@ function seekToPercentage(pct) {
   if (duration > 0) {
     const targetSeconds = (pct / 100) * duration;
     player.seekTo(targetSeconds, true);
+    const remaining = Math.max(0, duration - targetSeconds);
     if (DOM.currentTime) DOM.currentTime.textContent = formatTime(targetSeconds);
+    if (DOM.durationTime) DOM.durationTime.textContent = `-${formatTime(remaining)}`;
     if (DOM.progressBarFill) DOM.progressBarFill.style.width = `${pct}%`;
     if (DOM.progressThumb) DOM.progressThumb.style.left = `${pct}%`;
   }
 }
 
-// Seek by Delta (+10s or -10s)
-function seekDelta(seconds) {
-  if (!player || !isPlayerReady || typeof player.getCurrentTime !== 'function') return;
-
-  const current = player.getCurrentTime() || 0;
-  const duration = player.getDuration() || 0;
-  const target = Math.max(0, Math.min(duration, current + seconds));
-  player.seekTo(target, true);
-  showToast(seconds > 0 ? `+${seconds}s Forward` : `${seconds}s Backward`);
-}
-
-// Scrubber Click & Drag Listeners (Desktop & Smartphone)
 if (DOM.progressBarContainer) {
   function handleSeekEvent(e) {
     const rect = DOM.progressBarContainer.getBoundingClientRect();
@@ -477,9 +451,7 @@ if (DOM.progressBarContainer) {
   });
 
   window.addEventListener('mousemove', (e) => {
-    if (isDraggingSeekbar) {
-      handleSeekEvent(e);
-    }
+    if (isDraggingSeekbar) handleSeekEvent(e);
   });
 
   window.addEventListener('mouseup', () => {
@@ -489,7 +461,6 @@ if (DOM.progressBarContainer) {
     }
   });
 
-  // Mobile Touch Support
   DOM.progressBarContainer.addEventListener('touchstart', (e) => {
     isDraggingSeekbar = true;
     DOM.progressBarContainer.classList.add('is-dragging');
@@ -497,9 +468,7 @@ if (DOM.progressBarContainer) {
   }, { passive: true });
 
   window.addEventListener('touchmove', (e) => {
-    if (isDraggingSeekbar) {
-      handleSeekEvent(e);
-    }
+    if (isDraggingSeekbar) handleSeekEvent(e);
   }, { passive: true });
 
   window.addEventListener('touchend', () => {
@@ -511,7 +480,7 @@ if (DOM.progressBarContainer) {
 }
 
 // ==========================================================================
-// 4. USER CONTROLS (PLAY, NEXT, PREV, SEEK, VOLUME, DECADES)
+// 4. USER CONTROLS & EVENT BINDINGS
 // ==========================================================================
 
 function handleDirectPlay() {
@@ -519,10 +488,7 @@ function handleDirectPlay() {
   pendingPlay = true;
   hideAutoplayPrompt();
 
-  if (!isPlayerReady || !player) {
-    updateStatus('CONNECTING TO ROCK FREQUENCIES...');
-    return;
-  }
+  if (!isPlayerReady || !player) return;
 
   try {
     if (typeof player.getPlayerState === 'function') {
@@ -539,7 +505,6 @@ function handleDirectPlay() {
       loadActiveDecadePlaylist(true);
     }
   } catch (err) {
-    console.warn('Play exception, loading playlist:', err);
     loadActiveDecadePlaylist(true);
   }
 }
@@ -575,14 +540,10 @@ function toggleMute() {
     player.unMute();
     player.setVolume(currentVolume || 100);
     isMuted = false;
-    DOM.volumeIcon?.classList.remove('hidden');
-    DOM.muteIcon?.classList.add('hidden');
     if (DOM.volumeSlider) DOM.volumeSlider.value = currentVolume || 100;
   } else {
     player.mute();
     isMuted = true;
-    DOM.volumeIcon?.classList.add('hidden');
-    DOM.muteIcon?.classList.remove('hidden');
     if (DOM.volumeSlider) DOM.volumeSlider.value = 0;
   }
 }
@@ -594,14 +555,10 @@ function setVolume(val) {
   if (currentVolume === 0) {
     player.mute();
     isMuted = true;
-    DOM.volumeIcon?.classList.add('hidden');
-    DOM.muteIcon?.classList.remove('hidden');
   } else {
     if (isMuted) player.unMute();
     player.setVolume(currentVolume);
     isMuted = false;
-    DOM.volumeIcon?.classList.remove('hidden');
-    DOM.muteIcon?.classList.add('hidden');
   }
 }
 
@@ -617,53 +574,76 @@ const bindAction = (element, action) => {
 bindAction(DOM.playPauseBtn, handleDirectPlay);
 bindAction(DOM.nextBtn, playNextTrack);
 bindAction(DOM.prevBtn, playPrevTrack);
-bindAction(DOM.rewindBtn, () => seekDelta(-10));
-bindAction(DOM.forwardBtn, () => seekDelta(10));
 bindAction(DOM.muteBtn, toggleMute);
+bindAction(DOM.volMaxBtn, () => {
+  setVolume(100);
+  if (DOM.volumeSlider) DOM.volumeSlider.value = 100;
+});
 
+// Shuffle Button picks random decade
+bindAction(DOM.shuffleBtn, () => {
+  const decades = ['60s', '70s', '80s', '90s', '00s', 'ALL'];
+  const randomDecade = decades[Math.floor(Math.random() * decades.length)];
+  setDecade(randomDecade);
+  loadActiveDecadePlaylist(true);
+  showToast(`Switched frequency to ${DECADE_LABELS[randomDecade]}`);
+});
+
+// Volume Slider
 DOM.volumeSlider?.addEventListener('input', (e) => {
   setVolume(e.target.value);
 });
 
-// Toggle Decade Dropdown
-DOM.decadeDropdownTrigger?.addEventListener('click', (e) => {
+// Heart Like Toggle
+DOM.likeBtn?.addEventListener('click', (e) => {
   e.stopPropagation();
-  const isHidden = DOM.decadeDropdownMenu?.classList.toggle('hidden');
-  DOM.decadeDropdownTrigger.setAttribute('aria-expanded', !isHidden);
-});
+  isLiked = !isLiked;
+  const outline = DOM.likeBtn.querySelector('.heart-icon.outline');
+  const filled = DOM.likeBtn.querySelector('.heart-icon.filled');
 
-// Close dropdown when clicking anywhere else
-window.addEventListener('click', (e) => {
-  if (DOM.decadeDropdownMenu && !DOM.decadeDropdownMenu.classList.contains('hidden')) {
-    DOM.decadeDropdownMenu.classList.add('hidden');
-    DOM.decadeDropdownTrigger?.setAttribute('aria-expanded', 'false');
+  if (isLiked) {
+    outline?.classList.add('hidden');
+    filled?.classList.remove('hidden');
+    showToast('Added to Liked Songs ♡');
+  } else {
+    outline?.classList.remove('hidden');
+    filled?.classList.add('hidden');
+    showToast('Removed from Liked Songs');
   }
 });
 
-// Select Decade from Dropdown
-DOM.decadeDropdownMenu?.addEventListener('click', (e) => {
-  const item = e.target.closest('.dropdown-item');
-  if (!item) return;
+// Drawer Triggers
+bindAction(DOM.drawerToggleBtn, openDecadeDrawer);
+bindAction(DOM.drawerToggleBtnLeft, openDecadeDrawer);
+bindAction(DOM.headerDecadeTrigger, openDecadeDrawer);
+bindAction(DOM.tabLibrary, openDecadeDrawer);
+bindAction(DOM.drawerCloseBtn, closeDecadeDrawer);
+
+DOM.libraryDrawerBackdrop?.addEventListener('click', (e) => {
+  if (e.target === DOM.libraryDrawerBackdrop) {
+    closeDecadeDrawer();
+  }
+});
+
+// Decade Card Click inside Drawer
+DOM.libraryDrawer?.addEventListener('click', (e) => {
+  const card = e.target.closest('.decade-card-item');
+  if (!card) return;
   e.stopPropagation();
 
-  DOM.decadeDropdownMenu.classList.add('hidden');
-  DOM.decadeDropdownTrigger?.setAttribute('aria-expanded', 'false');
-
-  userHasInteracted = true;
-  hideAutoplayPrompt();
-
-  const decade = item.dataset.decade;
+  const decade = card.dataset.decade;
   if (decade && DECADE_PLAYLISTS[decade]) {
     setDecade(decade);
-    updateStatus(`SWITCHING FREQUENCY // ${DECADE_LABELS[decade] || decade}`, true);
+    closeDecadeDrawer();
+    userHasInteracted = true;
+    hideAutoplayPrompt();
     loadActiveDecadePlaylist(true);
-    showToast(`Switched to ${DECADE_LABELS[decade] || decade}`);
+    showToast(`Streaming ${DECADE_LABELS[decade]}`);
   }
 });
 
-// Share Track Action
-DOM.shareBtn?.addEventListener('click', (e) => {
-  e.stopPropagation();
+// Share Button
+const handleShare = () => {
   const title = DOM.trackTitle?.textContent || 'Rock Radio';
   const artist = DOM.trackArtist?.textContent || 'Live Broadcast';
   const shareText = `Listening to "${title} - ${artist}" on ROCK RADIO: ${window.location.href}`;
@@ -677,23 +657,9 @@ DOM.shareBtn?.addEventListener('click', (e) => {
   } else {
     showToast('Copied to clipboard!');
   }
-});
+};
 
-// Shortcuts Modal Handlers
-DOM.shortcutsBtn?.addEventListener('click', (e) => {
-  e.stopPropagation();
-  DOM.shortcutsModal?.classList.remove('hidden');
-});
-
-DOM.modalCloseBtn?.addEventListener('click', () => {
-  DOM.shortcutsModal?.classList.add('hidden');
-});
-
-DOM.shortcutsModal?.addEventListener('click', (e) => {
-  if (e.target === DOM.shortcutsModal) {
-    DOM.shortcutsModal.classList.add('hidden');
-  }
-});
+DOM.tabShare?.addEventListener('click', handleShare);
 
 // Keyboard Navigation Support
 window.addEventListener('keydown', (e) => {
@@ -706,112 +672,87 @@ window.addEventListener('keydown', (e) => {
       break;
     case 'ArrowRight':
       e.preventDefault();
-      seekDelta(10);
+      if (player && typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function') {
+        const cur = player.getCurrentTime() || 0;
+        player.seekTo(cur + 10, true);
+        showToast('+10s');
+      }
       break;
     case 'ArrowLeft':
       e.preventDefault();
-      seekDelta(-10);
+      if (player && typeof player.getCurrentTime === 'function') {
+        const cur = player.getCurrentTime() || 0;
+        player.seekTo(Math.max(0, cur - 10), true);
+        showToast('-10s');
+      }
       break;
     case 'KeyN':
+      e.preventDefault();
       playNextTrack();
       break;
     case 'KeyP':
+      e.preventDefault();
       playPrevTrack();
       break;
     case 'KeyM':
+      e.preventDefault();
       toggleMute();
-      break;
-    case 'Escape':
-      DOM.shortcutsModal?.classList.add('hidden');
       break;
   }
 });
 
-// Global Mobile Touch Unblocker
-const unlockAudioContext = () => {
-  if (!userHasInteracted && isPlayerReady && player) {
-    userHasInteracted = true;
-    hideAutoplayPrompt();
-    if (typeof player.playVideo === 'function') {
-      player.playVideo();
+// Unblock Mobile Audio on User Gesture
+const unblockAudioContext = () => {
+  userHasInteracted = true;
+  hideAutoplayPrompt();
+  if (isPlayerReady && player && typeof player.playVideo === 'function') {
+    if (!isPlaying) {
+      handleDirectPlay();
     }
   }
 };
 
-document.addEventListener('touchstart', unlockAudioContext, { passive: true });
-document.addEventListener('click', unlockAudioContext);
-
-DOM.autoplayOverlay?.addEventListener('click', (e) => {
-  e.stopPropagation();
-  userHasInteracted = true;
-  hideAutoplayPrompt();
-  if (player && isPlayerReady) {
-    player.playVideo();
-  }
-});
-
-DOM.autoplayOverlay?.addEventListener('touchstart', (e) => {
-  e.stopPropagation();
-  userHasInteracted = true;
-  hideAutoplayPrompt();
-  if (player && isPlayerReady) {
-    player.playVideo();
-  }
-}, { passive: true });
+document.addEventListener('touchstart', unblockAudioContext, { once: true, passive: true });
+document.addEventListener('click', unblockAudioContext, { once: true });
 
 // ==========================================================================
-// 5. SUPABASE REALTIME PRESENCE
+// 5. SUPABASE REALTIME MULTI-USER PRESENCE TRACKING
 // ==========================================================================
 
 function initSupabaseRealtime() {
-  const isPlaceholder = !SUPABASE_URL ||
-    !SUPABASE_ANON_KEY ||
-    SUPABASE_URL.includes('YOUR_SUPABASE') ||
-    SUPABASE_ANON_KEY.includes('YOUR_SUPABASE');
-
-  if (isPlaceholder || typeof window.supabase === 'undefined') {
-    setupFallbackListenerCounter();
+  if (typeof supabase === 'undefined' || SUPABASE_URL === 'YOUR_SUPABASE_URL') {
+    simulateFallbackPresence();
     return;
   }
 
   try {
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const channel = supabaseClient.channel('radio-room', {
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const room = client.channel('rock_radio_presence', {
       config: { presence: { key: userId } }
     });
 
-    channel.on('presence', { event: 'sync' }, () => {
-      const state = channel.presenceState();
-      const count = Object.keys(state).length;
-      updateListenerCountDisplay(count);
-    });
-
-    channel.subscribe(async (status) => {
-      if (status === 'SUBSCRIBED') {
-        await channel.track({
-          online_at: new Date().toISOString(),
-          user_id: userId
-        });
-      }
-    });
+    room
+      .on('presence', { event: 'sync' }, () => {
+        const state = room.presenceState();
+        const count = Object.keys(state).length || 1;
+        updateListenerCount(count);
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          await room.track({ online_at: new Date().toISOString() });
+        }
+      });
   } catch (err) {
-    setupFallbackListenerCounter();
+    simulateFallbackPresence();
   }
 }
 
-function updateListenerCountDisplay(count) {
-  if (!DOM.listenerCountText) return;
-  const label = count === 1 ? 'listener tuning in' : 'listeners tuning in';
-  DOM.listenerCountText.textContent = `${count} ${label}`;
+function simulateFallbackPresence() {
+  const randomCount = Math.floor(Math.random() * 6) + 3;
+  updateListenerCount(randomCount);
 }
 
-function setupFallbackListenerCounter() {
-  let count = Math.floor(Math.random() * 6) + 14;
-  updateListenerCountDisplay(count);
-
-  setInterval(() => {
-    const delta = Math.random() > 0.5 ? 1 : -1;
-    count = Math.max(1, count + delta);
-    updateListenerCountDisplay(count);
-  }, 12000);
+function updateListenerCount(count) {
+  const text = `${count} Live`;
+  if (DOM.tabListenerCount) DOM.tabListenerCount.textContent = text;
 }
