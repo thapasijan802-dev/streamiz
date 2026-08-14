@@ -1,147 +1,63 @@
 /* ==========================================================================
-   ROCK RADIO // MULTI-ENGINE HI-FI AUDIO SYSTEM & SUPABASE REALTIME PRESENCE
+   ROCK RADIO // PLAYLIST AUDIO STREAMING ENGINE & REALTIME PRESENCE
    ========================================================================== */
 
 // ==========================================================================
-// 1. VERIFIED ROCK ARCHIVE (100% MATCHING TRACK & BACKUP IDS)
+// 1. DECADE PLAYLIST POOLS (USER-VERIFIED YOUTUBE MUSIC PLAYLISTS)
 // ==========================================================================
 const SUPABASE_URL = 'YOUR_SUPABASE_URL';
 const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
-const DECADE_POOLS = {
-  'ALL': [
-    {
-      title: 'Crazy Train',
-      artist: 'Ozzy Osbourne',
-      id: 'zYp28jG85W0',
-      backupIds: ['3qVPNONdF58', 'tMDFv5m18Pw']
-    },
-    {
-      title: 'Bohemian Rhapsody',
-      artist: 'Queen',
-      id: 'fJ9rUzIMcZQ',
-      backupIds: ['bAsGFnLl7UA', '3p4MZJteWRU']
-    },
-    {
-      title: 'Sweet Child O\' Mine',
-      artist: 'Guns N\' Roses',
-      id: '1w7OgIMMRc4',
-      backupIds: ['P-AYAv0IoWI', 'o1tj2z-7BaU']
-    },
-    {
-      title: 'Smells Like Teen Spirit',
-      artist: 'Nirvana',
-      id: 'hTWKbfoikeg',
-      backupIds: ['PbgKEjfcA-g', 'fregObNcHC8']
-    },
-    {
-      title: 'Enter Sandman',
-      artist: 'Metallica',
-      id: 'CD-E-LDc384',
-      backupIds: ['1K93p0A4T8Y', 'vabnZ9-ex7o']
-    },
-    {
-      title: 'Numb',
-      artist: 'Linkin Park',
-      id: 'kXYiU_JCYtU',
-      backupIds: ['8sgycukafqQ', '4qlCC1GOwFw']
-    },
-    {
-      title: 'Back In Black',
-      artist: 'AC/DC',
-      id: 'pAgnJDJN4VA',
-      backupIds: ['l482T0yNkeo', 'Hji9y0B6B0E']
-    },
-    {
-      title: 'Hotel California',
-      artist: 'Eagles',
-      id: '09839DpTctU',
-      backupIds: ['BciS5krYL80', 'EqPtz5qN7HM']
-    },
-    {
-      title: 'Stairway to Heaven',
-      artist: 'Led Zeppelin',
-      id: 'QkF3oxziUI4',
-      backupIds: ['qM0zINtulhM', 'xbhCPt6PZIU']
-    },
-    {
-      title: 'Comfortably Numb',
-      artist: 'Pink Floyd',
-      id: '_FrOQC-zM3g',
-      backupIds: ['uk_wUT1fvbc', 'x-xTttimcNk']
-    },
-    {
-      title: 'Black Hole Sun',
-      artist: 'Soundgarden',
-      id: '3mbBbFH9fAg',
-      backupIds: ['x1U1Ue_52B0', 'QIeM4c_4x7A']
-    },
-    {
-      title: 'Alive',
-      artist: 'Pearl Jam',
-      id: '9pW3D3Fsh3E',
-      backupIds: ['wGiTPgv6VtU', '1w8ZwbYGL5M']
-    },
-    {
-      title: 'Paranoid',
-      artist: 'Black Sabbath',
-      id: '0lVlQyA0M7U',
-      backupIds: ['hk3m4TW7p6s', 'uk_wUT1fvbc']
-    },
-    {
-      title: 'Ace of Spades',
-      artist: 'Motörhead',
-      id: 'pWB5JZRGl0U',
-      backupIds: ['1EFx8eNlO2o', '7uKG_s22z0E']
-    }
-  ],
+const DECADE_PLAYLISTS = {
   '60s': [
-    { title: 'Stairway to Heaven', artist: 'Led Zeppelin', id: 'QkF3oxziUI4', backupIds: ['qM0zINtulhM'] },
-    { title: 'Light My Fire', artist: 'The Doors', id: 'mbj1RFaoyLk', backupIds: ['v2AC41dglnM'] },
-    { title: 'Voodoo Child', artist: 'Jimi Hendrix', id: 'qFfnlYbFEiE', backupIds: ['_ElORM98-0U'] },
-    { title: 'Baba O\'Riley', artist: 'The Who', id: 'gY5rFmPuhHk', backupIds: ['NCtzkaL2t_Y'] },
-    { title: 'Comfortably Numb', artist: 'Pink Floyd', id: '_FrOQC-zM3g', backupIds: ['uk_wUT1fvbc'] },
-    { title: 'Sunshine of Your Love', artist: 'Cream', id: 'zt51jvYXDCg', backupIds: ['IDZqmF3EIxY'] },
-    { title: 'Hey Jude', artist: 'The Beatles', id: 'A_MjCqQoLLA', backupIds: ['tA-u7Z5O3Gk'] }
+    'OLAK5uy_nlkdwzqhI82XzrQ6bDzMl0PyrXTUtltB4',
+    'PL36vhVTI7aVGQD7ZK4c5yZfS2n4c4weXd'
   ],
   '70s': [
-    { title: 'Bohemian Rhapsody', artist: 'Queen', id: 'fJ9rUzIMcZQ', backupIds: ['bAsGFnLl7UA'] },
-    { title: 'Back In Black', artist: 'AC/DC', id: 'pAgnJDJN4VA', backupIds: ['l482T0yNkeo'] },
-    { title: 'Hotel California', artist: 'Eagles', id: '09839DpTctU', backupIds: ['BciS5krYL80'] },
-    { title: 'Paranoid', artist: 'Black Sabbath', id: '0lVlQyA0M7U', backupIds: ['hk3m4TW7p6s'] },
-    { title: 'Smoke on the Water', artist: 'Deep Purple', id: 'zUwEIt9ezDI', backupIds: ['dXYl5VQ1lHA'] },
-    { title: 'Dream On', artist: 'Aerosmith', id: 'sZfZ8qiE5aU', backupIds: ['81CIgDRuR14'] },
-    { title: 'Go Your Own Way', artist: 'Fleetwood Mac', id: '6ul-cZyuYq4', backupIds: ['evJ6GLdMm9M'] },
-    { title: 'Rock and Roll All Nite', artist: 'KISS', id: 'Env5iURrFoo', backupIds: ['ZhIsAZO5gl0'] }
+    'RDATdyfccm9jaw',
+    'RDCLAK5uy_nZiG9ehz_MQoWQxY5yElsLHCcG0tv9PRg',
+    'OLAK5uy_kbHbRL1fKB0eLhbuBJ8iSo0bqmNi5ayBY',
+    'PLse1AzEOESWSm9VpfEo0Z5jltivv7-vXf'
   ],
   '80s': [
-    { title: 'Crazy Train', artist: 'Ozzy Osbourne', id: 'zYp28jG85W0', backupIds: ['3qVPNONdF58'] },
-    { title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses', id: '1w7OgIMMRc4', backupIds: ['P-AYAv0IoWI'] },
-    { title: 'Enter Sandman', artist: 'Metallica', id: 'CD-E-LDc384', backupIds: ['1K93p0A4T8Y'] },
-    { title: 'Run to the Hills', artist: 'Iron Maiden', id: '86URGgqONvA', backupIds: ['1w8ZwbYGL5M'] },
-    { title: 'Pour Some Sugar On Me', artist: 'Def Leppard', id: '0UIB9Y4OF60', backupIds: ['aO5w0z2bZ2k'] },
-    { title: 'Livin\' On A Prayer', artist: 'Bon Jovi', id: 'lDK9QqIq7go', backupIds: ['VXp3yH4G9Hw'] },
-    { title: 'Ace of Spades', artist: 'Motörhead', id: 'pWB5JZRGl0U', backupIds: ['1EFx8eNlO2o'] }
+    'RDCLAK5uy_maCVamCosYLtz7MRW_uNPyqCdMwZ1FTLs',
+    'RDCLAK5uy_nyKVppE-RpLkeCcwLct4rvN9e8AAsS_qw',
+    'RDATdzfccm9jaw',
+    'RDCLAK5uy_nZiG9ehz_MQoWQxY5yElsLHCcG0tv9PRg',
+    'RDATg6Xdz',
+    'RDCLAK5uy_khMA5iC_Hy79mWTECnc3-SNeJSt5SlZGg'
   ],
   '90s': [
-    { title: 'Smells Like Teen Spirit', artist: 'Nirvana', id: 'hTWKbfoikeg', backupIds: ['PbgKEjfcA-g'] },
-    { title: 'Alive', artist: 'Pearl Jam', id: '9pW3D3Fsh3E', backupIds: ['wGiTPgv6VtU'] },
-    { title: 'Black Hole Sun', artist: 'Soundgarden', id: '3mbBbFH9fAg', backupIds: ['x1U1Ue_52B0'] },
-    { title: 'Like a Stone', artist: 'Audioslave', id: '7quU3u4iZ14', backupIds: ['NMNgbISmF4I'] },
-    { title: 'Man in the Box', artist: 'Alice in Chains', id: 'TAqZb524cLU', backupIds: ['5gHiR1xeOSs'] },
-    { title: 'Plush', artist: 'Stone Temple Pilots', id: 'v0VP7T9W2v8', backupIds: ['b8-tXG8KrWs'] },
-    { title: 'Killing In The Name', artist: 'Rage Against The Machine', id: 'bWXazVhlyxQ', backupIds: ['kl1rj71607Q'] },
-    { title: 'The Pretender', artist: 'Foo Fighters', id: 'SBjQ9tuuTJQ', backupIds: ['e8X3ACToii0'] }
+    'RDATd_feZ3J1bmdl',
+    'RDCLAK5uy_m_h-nx7OCFaq9AlyXv78lG0AuloqW_NUA',
+    'PLD58ECddxRngHs9gZPQWOCAKwV1hTtYe4',
+    'RDATd_fccm9jaw',
+    'OLAK5uy_lieUCVLMoB1Kkhuqsna8JXcGe3oQbMMts'
   ],
   '00s': [
-    { title: 'Numb', artist: 'Linkin Park', id: 'kXYiU_JCYtU', backupIds: ['8sgycukafqQ'] },
-    { title: 'Chop Suey!', artist: 'System Of A Down', id: 'CSvFpBOe8eY', backupIds: ['y0S4sLyL80E'] },
-    { title: 'Psychosocial', artist: 'Slipknot', id: '5abamRO41fE', backupIds: ['eOn6upuP0tY'] },
-    { title: 'Bring Me To Life', artist: 'Evanescence', id: '3YxaaGgTQYM', backupIds: ['q_Zl-G_0Efg'] },
-    { title: 'Boulevard of Broken Dreams', artist: 'Green Day', id: 'r00ikilxWA4', backupIds: ['Soa3gO7tL-o'] },
-    { title: 'Down With The Sickness', artist: 'Disturbed', id: '0jgrOPh47wE', backupIds: ['L397TWLwrUU'] },
-    { title: 'In The End', artist: 'Linkin Park', id: 'eVTXPUF4Oz4', backupIds: ['1jwvgp_hK24'] }
+    'OLAK5uy_kH7wrNsv2fbQ4bFnqzVirIprxCLJ9A2lA',
+    'RDCLAK5uy_lnCm_XtFBPLTWRpMKfqiemrdBkBM7OtPc',
+    'OLAK5uy_lieUCVLMoB1Kkhuqsna8JXcGe3oQbMMts'
   ]
+};
+
+// Combine all playlists for ALL ROCK mix
+DECADE_PLAYLISTS['ALL'] = [
+  ...DECADE_PLAYLISTS['60s'],
+  ...DECADE_PLAYLISTS['70s'],
+  ...DECADE_PLAYLISTS['80s'],
+  ...DECADE_PLAYLISTS['90s'],
+  ...DECADE_PLAYLISTS['00s']
+];
+
+// Fallback initial starter tracks
+const FALLBACK_STARTER_TRACKS = {
+  'ALL': { title: 'Bohemian Rhapsody', artist: 'Queen', id: 'fJ9rUzIMcZQ' },
+  '60s': { title: 'Stairway to Heaven', artist: 'Led Zeppelin', id: 'QkF3oxziUI4' },
+  '70s': { title: 'Bohemian Rhapsody', artist: 'Queen', id: 'fJ9rUzIMcZQ' },
+  '80s': { title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses', id: '1w7OgIMMRc4' },
+  '90s': { title: 'Smells Like Teen Spirit', artist: 'Nirvana', id: 'hTWKbfoikeg' },
+  '00s': { title: 'Numb', artist: 'Linkin Park', id: 'kXYiU_JCYtU' }
 };
 
 // Global App State
@@ -151,9 +67,7 @@ let isPlaying = false;
 let userHasInteracted = false;
 let pendingPlay = false;
 let currentDecade = 'ALL';
-let currentTrackIndex = 0;
-let currentIdIndex = 0;
-let currentTrackQueue = [];
+let currentPlaylistId = '';
 let isDraggingSeekbar = false;
 let currentVolume = 100;
 let isMuted = false;
@@ -192,21 +106,10 @@ const DOM = {
   shortcutsModal: document.getElementById('shortcuts-modal'),
   modalCloseBtn: document.getElementById('modal-close-btn'),
   toastNotification: document.getElementById('toast-notification'),
-  toastMessage: document.getElementById('toast-message'),
-  html5Audio: document.getElementById('html5-audio-player')
+  toastMessage: document.getElementById('toast-message')
 };
 
 const userId = 'user_' + Math.random().toString(36).substring(2, 9);
-
-// Utility: Fisher-Yates Shuffle
-function shuffleArray(array) {
-  const arr = [...array];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
 
 // Format Seconds to MM:SS
 function formatTime(seconds) {
@@ -226,13 +129,16 @@ function showToast(message) {
   }, 2500);
 }
 
-// Initialize Decade Queue
+// Select a random playlist for the chosen decade
+function getRandomPlaylist(decadeKey) {
+  const list = DECADE_PLAYLISTS[decadeKey] || DECADE_PLAYLISTS['ALL'];
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+// Initialize Decade Selection
 function setDecade(decadeKey) {
   currentDecade = decadeKey;
-  const pool = DECADE_POOLS[decadeKey] || DECADE_POOLS['ALL'];
-  currentTrackQueue = shuffleArray(pool);
-  currentTrackIndex = 0;
-  currentIdIndex = 0;
+  currentPlaylistId = getRandomPlaylist(decadeKey);
 
   // Update UI Pills
   if (DOM.decadeSelector) {
@@ -246,11 +152,8 @@ function setDecade(decadeKey) {
     });
   }
 
-  // Update current track display
-  if (currentTrackQueue.length > 0) {
-    const track = currentTrackQueue[0];
-    updateTrackDisplay(track.title, track.artist);
-  }
+  const starter = FALLBACK_STARTER_TRACKS[decadeKey] || FALLBACK_STARTER_TRACKS['ALL'];
+  updateTrackDisplay(starter.title, starter.artist);
 }
 
 // Initial Setup
@@ -260,14 +163,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================================================
-// 2. YOUTUBE IFRAME & MOBILE-COMPATIBLE ENGINE
+// 2. YOUTUBE IFRAME PLAYLIST STREAMING ENGINE
 // ==========================================================================
 
 function initYouTubePlayer() {
   if (player) return;
-
-  const currentTrack = currentTrackQueue[currentTrackIndex];
-  const initialVideoId = currentTrack ? currentTrack.id : 'zYp28jG85W0';
 
   const playerVars = {
     autoplay: 1,
@@ -285,7 +185,6 @@ function initYouTubePlayer() {
     player = new YT.Player('youtube-player', {
       height: '200',
       width: '200',
-      videoId: initialVideoId,
       playerVars: playerVars,
       events: {
         onReady: onPlayerReady,
@@ -327,31 +226,32 @@ function onPlayerReady(event) {
   updateStatus('READY // TAP PLAY TO START');
 
   if (pendingPlay || userHasInteracted) {
-    playCurrentDecadeTrack(true);
+    loadActiveDecadePlaylist(true);
   }
 }
 
-function playCurrentDecadeTrack(autoPlay = true) {
-  const track = currentTrackQueue[currentTrackIndex];
-  if (!track) return;
+function loadActiveDecadePlaylist(autoPlay = true) {
+  if (!player || !isPlayerReady) return;
 
-  updateTrackDisplay(track.title, track.artist);
   resetProgressBar();
+  currentPlaylistId = getRandomPlaylist(currentDecade);
 
-  if (player && isPlayerReady) {
-    let videoId = track.id;
-    if (track.backupIds && currentIdIndex > 0) {
-      videoId = track.backupIds[(currentIdIndex - 1) % track.backupIds.length];
+  try {
+    if (typeof player.loadPlaylist === 'function') {
+      player.loadPlaylist({
+        list: currentPlaylistId,
+        listType: 'playlist',
+        index: 0,
+        startSeconds: 0
+      });
+      if (typeof player.setShuffle === 'function') player.setShuffle(true);
+      if (typeof player.setLoop === 'function') player.setLoop(true);
     }
-
-    try {
-      if (autoPlay && typeof player.loadVideoById === 'function') {
-        player.loadVideoById({ videoId: videoId, startSeconds: 0 });
-      } else if (typeof player.cueVideoById === 'function') {
-        player.cueVideoById({ videoId: videoId, startSeconds: 0 });
-      }
-    } catch (e) {
-      console.warn('Load video exception:', e);
+  } catch (e) {
+    console.warn('Load playlist error, playing starter track:', e);
+    const starter = FALLBACK_STARTER_TRACKS[currentDecade] || FALLBACK_STARTER_TRACKS['ALL'];
+    if (typeof player.loadVideoById === 'function') {
+      player.loadVideoById({ videoId: starter.id, startSeconds: 0 });
     }
   }
 }
@@ -364,7 +264,7 @@ function onPlayerStateChange(event) {
       isPlaying = true;
       hideAutoplayPrompt();
       updatePlayPauseUI(true);
-      fetchTrackDetails();
+      fetchLiveTrackDetails();
       updateStatus(`NOW STREAMING // ${currentDecade} ROCK`, true);
       break;
 
@@ -391,26 +291,52 @@ function onPlayerStateChange(event) {
   }
 }
 
-// Automatic Multi-ID Fallback Handling
+// Automatic Non-Stop Fallback Handling: If a video in playlist is restricted, advance instantly in 200ms
 function onPlayerError(event) {
-  const track = currentTrackQueue[currentTrackIndex];
-  console.warn(`Audio stream error (${event.data}). Retrying stream for "${track?.title}"...`);
-
-  const backupCount = (track?.backupIds?.length || 0) + 1;
-  if (currentIdIndex + 1 < backupCount) {
-    currentIdIndex++;
-    playCurrentDecadeTrack(true);
-  } else {
-    currentIdIndex = 0;
-    currentTrackIndex = (currentTrackIndex + 1) % currentTrackQueue.length;
-    playCurrentDecadeTrack(true);
+  console.warn(`Playlist video skipped (Code ${event.data}). Advancing to next track...`);
+  if (player && typeof player.nextVideo === 'function') {
+    setTimeout(() => {
+      player.nextVideo();
+    }, 200);
   }
 }
 
-function fetchTrackDetails() {
-  const track = currentTrackQueue[currentTrackIndex];
-  if (track) {
-    updateTrackDisplay(track.title, track.artist);
+// Extract and format clean Live Track Name & Artist from YouTube
+function fetchLiveTrackDetails() {
+  if (!player || typeof player.getVideoData !== 'function') return;
+
+  const data = player.getVideoData();
+  if (data && data.title && data.title.trim() !== '') {
+    let title = data.title
+      .replace(/\s*\([^)]*official[^)]*\)/gi, '')
+      .replace(/\s*\[[^\]]*official[^\]]*\]/gi, '')
+      .replace(/\s*\([^)]*video[^)]*\)/gi, '')
+      .replace(/\s*\[[^\]]*video[^\]]*\]/gi, '')
+      .replace(/\s*\([^)]*audio[^)]*\)/gi, '')
+      .replace(/\s*\[[^\]]*audio[^\]]*\]/gi, '')
+      .replace(/\s*\([^)]*hd[^)]*\)/gi, '')
+      .replace(/\s*\[[^\]]*hd[^\]]*\]/gi, '')
+      .replace(/\s*\([^)]*remastered[^)]*\)/gi, '')
+      .replace(/\s*\[[^\]]*remastered[^\]]*\]/gi, '')
+      .replace(/\s*\([^)]*lyric[^)]*\)/gi, '')
+      .replace(/\s*\[[^\]]*lyric[^\]]*\]/gi, '')
+      .replace(/\s*\([^)]*visualizer[^)]*\)/gi, '')
+      .trim();
+
+    let artist = 'ROCK ARCHIVE';
+
+    if (title.includes(' - ')) {
+      const parts = title.split(' - ');
+      artist = parts[0].trim();
+      title = parts.slice(1).join(' - ').trim();
+    } else if (data.author) {
+      artist = data.author
+        .replace(/VEVO$/i, '')
+        .replace(/ - Topic$/i, '')
+        .trim();
+    }
+
+    updateTrackDisplay(title, artist);
   }
 }
 
@@ -576,7 +502,7 @@ if (DOM.progressBarContainer) {
 }
 
 // ==========================================================================
-// 4. USER CONTROLS (SMARTPHONE TOUCH + DESKTOP CLICK)
+// 4. USER CONTROLS (PLAY, NEXT, PREV, SEEK, VOLUME, DECADES)
 // ==========================================================================
 
 function handleDirectPlay() {
@@ -584,22 +510,28 @@ function handleDirectPlay() {
   pendingPlay = true;
   hideAutoplayPrompt();
 
-  if (!isPlayerReady || !player || typeof player.getPlayerState !== 'function') {
+  if (!isPlayerReady || !player) {
     updateStatus('CONNECTING TO ROCK FREQUENCIES...');
     return;
   }
 
   try {
-    const state = player.getPlayerState();
-    if (state === YT.PlayerState.PLAYING) {
-      pendingPlay = false;
-      player.pauseVideo();
+    if (typeof player.getPlayerState === 'function') {
+      const state = player.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) {
+        pendingPlay = false;
+        player.pauseVideo();
+      } else if (state === YT.PlayerState.PAUSED || state === YT.PlayerState.CUED) {
+        player.playVideo();
+      } else {
+        loadActiveDecadePlaylist(true);
+      }
     } else {
-      player.playVideo();
+      loadActiveDecadePlaylist(true);
     }
   } catch (err) {
-    console.warn('Play video exception:', err);
-    playCurrentDecadeTrack(true);
+    console.warn('Play exception, loading playlist:', err);
+    loadActiveDecadePlaylist(true);
   }
 }
 
@@ -608,12 +540,11 @@ function playNextTrack() {
   pendingPlay = true;
   hideAutoplayPrompt();
 
-  if (currentTrackQueue.length === 0) return;
-
-  currentIdIndex = 0;
-  currentTrackIndex = (currentTrackIndex + 1) % currentTrackQueue.length;
-  updateStatus(`STREAMING // ${currentDecade} ROCK`, true);
-  playCurrentDecadeTrack(true);
+  if (player && typeof player.nextVideo === 'function') {
+    player.nextVideo();
+  } else {
+    loadActiveDecadePlaylist(true);
+  }
 }
 
 function playPrevTrack() {
@@ -621,12 +552,11 @@ function playPrevTrack() {
   pendingPlay = true;
   hideAutoplayPrompt();
 
-  if (currentTrackQueue.length === 0) return;
-
-  currentIdIndex = 0;
-  currentTrackIndex = (currentTrackIndex - 1 + currentTrackQueue.length) % currentTrackQueue.length;
-  updateStatus(`STREAMING // ${currentDecade} ROCK`, true);
-  playCurrentDecadeTrack(true);
+  if (player && typeof player.previousVideo === 'function') {
+    player.previousVideo();
+  } else {
+    loadActiveDecadePlaylist(true);
+  }
 }
 
 function toggleMute() {
@@ -666,7 +596,7 @@ function setVolume(val) {
   }
 }
 
-// Button Bindings (Click & Touchstart for instantaneous smartphone response)
+// Button Bindings
 const bindAction = (element, action) => {
   if (!element) return;
   element.addEventListener('click', (e) => {
@@ -697,10 +627,10 @@ if (DOM.decadeSelector) {
     hideAutoplayPrompt();
 
     const decade = pill.dataset.decade;
-    if (decade && DECADE_POOLS[decade]) {
+    if (decade && DECADE_PLAYLISTS[decade]) {
       setDecade(decade);
-      updateStatus(`FREQUENCY SWITCHED // ${decade} ROCK`, true);
-      playCurrentDecadeTrack(true);
+      updateStatus(`SWITCHING FREQUENCY // ${decade} ROCK`, true);
+      loadActiveDecadePlaylist(true);
     }
   });
 }
@@ -708,8 +638,9 @@ if (DOM.decadeSelector) {
 // Share Track Action
 DOM.shareBtn?.addEventListener('click', (e) => {
   e.stopPropagation();
-  const track = currentTrackQueue[currentTrackIndex];
-  const shareText = `Listening to "${track?.title} - ${track?.artist}" on ROCK RADIO: ${window.location.href}`;
+  const title = DOM.trackTitle?.textContent || 'Rock Radio';
+  const artist = DOM.trackArtist?.textContent || 'Live Broadcast';
+  const shareText = `Listening to "${title} - ${artist}" on ROCK RADIO: ${window.location.href}`;
 
   if (navigator.clipboard) {
     navigator.clipboard.writeText(shareText).then(() => {
